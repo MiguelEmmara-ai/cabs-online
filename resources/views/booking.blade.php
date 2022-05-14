@@ -70,35 +70,35 @@
                                 <label>
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                         value="Scooter" checked required>
-                                    <img src="./assets/img/cars/Scooter.png" alt="Car 1">
+                                    <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
                                         value="Hatchback" required>
-                                    <img src="./assets/img/cars/Hatchback.png" alt="Car 2">
+                                    <img src="assets/img/cars/Hatchback.png" alt="Car 2">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
                                         value="Suv" required>
-                                    <img src="./assets/img/cars/Suv.png" alt="Car 3">
+                                    <img src="assets/img/cars/Suv.png" alt="Car 3">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4"
                                         value="Sedan" required>
-                                    <img src="./assets/img/cars/Sedan.png" alt="Car 4">
+                                    <img src="assets/img/cars/Sedan.png" alt="Car 4">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5"
                                         value="Van" required>
-                                    <img src="./assets/img/cars/Van.png" alt="Car 5">
+                                    <img src="assets/img/cars/Van.png" alt="Car 5">
                                 </label>
                             </div>
                         </div>
