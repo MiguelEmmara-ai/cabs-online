@@ -21,10 +21,10 @@
                     style="color: #3b3b3b;font-weight: bold;"><strong><em>Enjoy Your Comfortable Trip With
                             Us!</em></strong><br></p>
                 <a class="btn btn-light btn-lg action-button" role="button" data-aos="fade-up" data-aos-duration="1200"
-                    data-aos-delay="1000" data-aos-once="true" href="index.php#about" style="background: #f6b800;">Learn
+                    data-aos-delay="1000" data-aos-once="true" href="/#about" style="background: #f6b800;">Learn
                     More</a>
                 <a class="btn btn-dark btn-lg" role="button" data-aos="fade-up" data-aos-duration="1200"
-                    data-aos-delay="1000" data-aos-once="true" href="booking.php" style="border-radius: 40px;">Book A
+                    data-aos-delay="1000" data-aos-once="true" href="/booking" style="border-radius: 40px;">Book A
                     Ride</a>
                 <div class="container mt-3">
                     <img data-aos="zoom-in-up" data-aos-duration="500" data-aos-delay="500" data-aos-once="true"
