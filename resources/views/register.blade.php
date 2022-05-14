@@ -15,7 +15,7 @@
             <!-- Start: Image -->
             <div class="image-holder"></div>
             <!-- End: Image -->
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+            <form action="register" method="POST">
                 <h2 class="text-center" style="margin-top: -18px;"><strong>Create</strong> an account.</h2>
                 <p class="text-center" style="margin-top: 1px;">Partner with us to drive your own livelihood and more.<br>
                 </p>

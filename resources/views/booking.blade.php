@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-7">
-                    <form action="{{ htmlspecialchars($_SERVER['PHP_SELF']) }}" method="POST"
+                    <form action="booking" method="POST"
                         style="margin-top: 70px;max-width: 1000px;">
                         <h2 class="text-center">Book A Ride</h2>
                         <div class="mb-3">
