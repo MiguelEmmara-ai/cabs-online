@@ -16,7 +16,7 @@
                             movement should be accessible. So you can move and earn safely. In a way that’s sustainable for
                             our planet. At Cabs Online, the pursuit of reimagination is never finished, never stops, and is
                             always just beginning.</p>
-                        <a class="btn btn-primary" role="button" href="booking.php"
+                        <a class="btn btn-primary" role="button" href="/booking"
                             style="margin-left: -4px;background: rgb(59,59,59);">Book A RIDE</a>
                     </div><!-- End: Intro -->
                 </div>

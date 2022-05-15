@@ -20,24 +20,24 @@
                 <p class="text-center" style="margin-top: 1px;">Partner with us to drive your own livelihood and more.<br>
                 </p>
                 <div class="mb-3">
-                    <input type="email" name="email" placeholder="Email" required="" class="form-control <?php echo !empty($email_err) ? 'is-invalid' : ''; ?>"
-                        value="<?php echo $email; ?>">
-                    <span class="invalid-feedback"><?php echo $email_err; ?></span>
+                    <input type="email" name="email" placeholder="Email" required="" class="form-control @php echo !empty($email_err) ? 'is-invalid' : ''; @endphp"
+                        value="@php echo $email; @endphp">
+                    <span class="invalid-feedback">@php echo $email_err; @endphp</span>
                 </div>
                 <div class="mb-3">
                     <input type="text" name="username" placeholder="Username" required=""
-                        class="form-control <?php echo !empty($username_err) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-                    <span class="invalid-feedback"><?php echo $username_err; ?></span>
+                        class="form-control @php echo !empty($username_err) ? 'is-invalid' : ''; @endphp" value="@php echo $username; @endphp">
+                    <span class="invalid-feedback">@php echo $username_err; @endphp</span>
                 </div>
                 <div class="mb-3">
                     <input type="password" name="password" placeholder="Password" required=""
-                        class="form-control <?php echo !empty($password_err) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
-                    <span class="invalid-feedback"><?php echo $password_err; ?></span>
+                        class="form-control @php echo !empty($password_err) ? 'is-invalid' : ''; @endphp" value="@php echo $password; @endphp">
+                    <span class="invalid-feedback">@php echo $password_err; @endphp</span>
                 </div>
                 <div class="mb-3">
                     <input type="password" name="confirm_password" placeholder="Password (repeat)" required=""
-                        class="form-control <?php echo !empty($confirm_password_err) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
-                    <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+                        class="form-control @php echo !empty($confirm_password_err) ? 'is-invalid' : ''; @endphp" value="@php echo $confirm_password; @endphp">
+                    <span class="invalid-feedback">@php echo $confirm_password_err; @endphp</span>
                 </div>
                 <div class="mb-3">
                     <p><strong>Select Car You Have</strong><br></p>
@@ -89,7 +89,7 @@
                     <input class="btn btn-primary d-block w-100" type="submit" name="signUp-button"
                         style="background: rgb(254,209,54);" value="Sign Up">
                 </div>
-                <a class="already" href="/login">Don't have an account? Register here.</a>
+                <a class="already" href="/login">Already have an account? Login here.</a>
             </form>
         </div>
 
