@@ -16,6 +16,7 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
+        "jquery": "^3.6.0",
         "sweetalert2": "^11.4.14"
     }
 }
