@@ -26,7 +26,7 @@ class CreatePassengersTable extends Migration
             $table->date('pickUpDate');
             $table->time('pickUpTime');
             $table->enum('status', ['Assigned', 'Unassigned']);
-            $table->enum('carsNeed', ['Scooter','Hatchback','Suv','Sedan','Van']);
+            $table->enum('carsNeed', ['Scooter', 'Hatchback', 'Suv', 'Sedan', 'Van']);
             $table->string('assignedBy');
             $table->timestamps();
         });
