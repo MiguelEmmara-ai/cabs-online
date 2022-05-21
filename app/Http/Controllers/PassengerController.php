@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Passengers;
+use App\Http\Controllers\Controller;
+use App\Models\Passenger;
 use Illuminate\Http\Request;
 
 class PassengerController extends Controller
@@ -37,7 +38,35 @@ class PassengerController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        $validated = $request->validate([
+            'fName' => 'required|min:3|max:255|',
+            'lName' => 'required|min:3|max:255|',
+            'phoneNumber' => 'required|digits_between:3,10|',
+            'unitNumber' => 'required|numeric',
+            'streetNumber' => 'required|numeric',
+            'streetName' => 'required|min:3|max:255|',
+            'suburb' => 'required|min:3|max:255|',
+            'destinationSuburb' => 'required|min:3|max:255|',
+            'pickUpDate' => 'required|date',
+            'pickUpTime' => 'required|date_format:H:i',
+            'carsNeed' => 'required',
+        ]);
+
+        $validated['customerName'] = $request->input('fName') . ' ' . $request->input('lName');
+
+        $digits = 5;
+        $referenceNumber = 'BRN' . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
+        $validated['bookingRefNo'] = $referenceNumber;
+
+        $validated['status'] = 'Unassigned';
+
+        $validated['assignedBy'] = 'None';
+
+        Passenger::create($validated);
+
+        return redirect('/booking')
+            ->with('success', 'Your Booking Is Underway!');
+
     }
 
     /**
@@ -46,7 +75,7 @@ class PassengerController extends Controller
      * @param  \App\Models\Passengers  $passengers
      * @return \Illuminate\Http\Response
      */
-    public function show(Passengers $passengers)
+    public function show(Passenger $passengers)
     {
         //
     }
@@ -57,7 +86,7 @@ class PassengerController extends Controller
      * @param  \App\Models\Passengers  $passengers
      * @return \Illuminate\Http\Response
      */
-    public function edit(Passengers $passengers)
+    public function edit(Passenger $passengers)
     {
         //
     }
@@ -69,7 +98,7 @@ class PassengerController extends Controller
      * @param  \App\Models\Passengers  $passengers
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Passengers $passengers)
+    public function update(Request $request, Passenger $passengers)
     {
         //
     }
@@ -80,7 +109,7 @@ class PassengerController extends Controller
      * @param  \App\Models\Passengers  $passengers
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Passengers $passengers)
+    public function destroy(Passenger $passengers)
     {
         //
     }
