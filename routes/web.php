@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PassengerController;
+use App\Http\Controllers\RegisterController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,14 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/admin', function () {
     return view('admin.index', [
         'title' => 'Dashboard Admin',
-        "active" => "login"
     ]);
 })->middleware('auth');
+
+Route::get('/admin/all', [DriverController::class, 'showAll'])
+    ->middleware('auth');
+
+Route::get('/admin/recent', [DriverController::class, 'showRecent'])
+    ->middleware('auth');
+
+Route::get('/admin/avail', [DriverController::class, 'showAvail'])
+    ->middleware('auth');
