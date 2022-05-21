@@ -21,65 +21,90 @@
                 <h2 class="text-center" style="margin-top: -18px;"><strong>Create</strong> an account.</h2>
                 <p class="text-center" style="margin-top: 1px;">Partner with us to drive your own livelihood and more.<br>
                 </p>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="mb-3">
-                    <input type="email" name="email" placeholder="Email" required
-                        class="form-control @php echo !empty($email_err) ? 'is-invalid' : ''; @endphp"
-                        value="@php echo $email; @endphp">
-                    <span class="invalid-feedback">@php echo $email_err; @endphp</span>
+                    <input type="email" name="email" placeholder="Email"
+                        class="form-control @error('email') is-invalid @enderror" required value="{{ old('email') }}">
+                    @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <input type="text" name="username" placeholder="Username" required
-                        class="form-control @php echo !empty($username_err) ? 'is-invalid' : ''; @endphp"
-                        value="@php echo $username; @endphp">
-                    <span class="invalid-feedback">@php echo $username_err; @endphp</span>
+                    <input type="text" name="username" placeholder="Username"
+                        class="form-control @error('username') is-invalid @enderror" required
+                        value="{{ old('username') }}">
+                    @error('username')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="password" placeholder="Password" required
-                        class="form-control @php echo !empty($password_err) ? 'is-invalid' : ''; @endphp"
-                        value="@php echo $password; @endphp">
-                    <span class="invalid-feedback">@php echo $password_err; @endphp</span>
+                    <input type="password" name="password" placeholder="Password"
+                        class="form-control @error('password') is-invalid @enderror" required>
+                    @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="confirm_password" placeholder="Password (repeat)" required
-                        class="form-control @php echo !empty($confirm_password_err) ? 'is-invalid' : ''; @endphp"
-                        value="@php echo $confirm_password; @endphp">
-                    <span class="invalid-feedback">@php echo $confirm_password_err; @endphp</span>
+                    <input type="password" name="confirm_password" placeholder="Password (repeat)"
+                        class="form-control @error('confirm_password') is-invalid @enderror" required>
+                    @error('confirm_password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <p><strong>Select Car You Have</strong><br></p>
 
                     <div class="form-check form-check-inline">
                         <label>
-                            <input class="form-check-input" type="checkbox" name="carsAvailability[]"
-                                id="checkRadio1" value="Scooter">
+                            <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio1"
+                                value="Scooter">
                             <img src="assets/img/cars/Scooter.png" alt="Car 1">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
-                            <input class="form-check-input" type="checkbox" name="carsAvailability[]"
-                                id="checkRadio2" value="Hatch Back">
+                            <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio2"
+                                value="Hatch Back">
                             <img src="assets/img/cars/Hatchback.png" alt="Car 2">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
-                            <input class="form-check-input" type="checkbox" name="carsAvailability[]"
-                                id="checkRadio3" value="Suv">
+                            <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio3"
+                                value="Suv">
                             <img src="assets/img/cars/Suv.png" alt="Car 3">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
-                            <input class="form-check-input" type="checkbox" name="carsAvailability[]"
-                                id="checkRadio4" value="Sedan">
+                            <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio4"
+                                value="Sedan">
                             <img src="assets/img/cars/Sedan.png" alt="Car 4">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
-                            <input class="form-check-input" type="checkbox" name="carsAvailability[]"
-                                id="checkRadio5" value="Van">
+                            <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio5"
+                                value="Van">
                             <img src="assets/img/cars/Van.png" alt="Car 5">
                         </label>
                     </div>
