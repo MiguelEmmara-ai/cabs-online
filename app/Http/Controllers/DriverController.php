@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Driver;
+use App\Models\Passenger;
 use Illuminate\Http\Request;
 
 class DriverController extends Controller
@@ -47,6 +49,36 @@ class DriverController extends Controller
     public function show(Driver $driver)
     {
         //
+    }
+
+    public function showAll(Passenger $passengers)
+    {
+        $passengers = Passenger::paginate(7)->withQueryString();
+
+        return view('admin.all', [
+            'title' => 'All Passengers Booking',
+            "passengers" => $passengers,
+        ]);
+    }
+
+    public function showRecent(Passenger $Passengers)
+    {
+        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at','desc')->take(7)->get();
+
+        return view('admin.recent', [
+            'title' => 'All Passengers Recent Booking',
+            "passengers" => $Passengers,
+        ]);
+    }
+
+    public function showAvail(Passenger $Passengers)
+    {
+        $Passengers = Passenger::where('status', 'Unassigned')->paginate(7)->withQueryString();
+
+        return view('admin.avail', [
+            'title' => 'All Passengers Available Booking',
+            "passengers" => $Passengers,
+        ]);
     }
 
     /**
