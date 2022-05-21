@@ -1,12 +1,6 @@
 @extends('layouts.main')
 
 @section('container')
-    @php
-    // Define variables and initialize with empty values
-    $email = $username = $password = $confirm_password = '';
-    $email_err = $username_err = $password_err = $confirm_password_err = '';
-    @endphp
-
     @include('partials.navbar')
     <!-- Start: Registration Form with Photo -->
     <section class="register-photo" style="margin-top: 60px;">
@@ -76,35 +70,36 @@
                     <div class="form-check form-check-inline">
                         <label>
                             <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio1"
-                                value="Scooter">
+                                value="Scooter" {{ in_array('Scooter', old('carsAvailability', [])) ? 'checked' : '' }}>
                             <img src="assets/img/cars/Scooter.png" alt="Car 1">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
                             <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio2"
-                                value="Hatch Back">
+                                value="Hatch Back"
+                                {{ in_array('Hatch Back', old('carsAvailability', [])) ? 'checked' : '' }}>
                             <img src="assets/img/cars/Hatchback.png" alt="Car 2">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
                             <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio3"
-                                value="Suv">
+                                value="Suv" {{ in_array('Suv', old('carsAvailability', [])) ? 'checked' : '' }}>
                             <img src="assets/img/cars/Suv.png" alt="Car 3">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
                             <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio4"
-                                value="Sedan">
+                                value="Sedan" {{ in_array('Sedan', old('carsAvailability', [])) ? 'checked' : '' }}>
                             <img src="assets/img/cars/Sedan.png" alt="Car 4">
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
                             <input class="form-check-input" type="checkbox" name="carsAvailability[]" id="checkRadio5"
-                                value="Van">
+                                value="Van" {{ in_array('Van', old('carsAvailability', [])) ? 'checked' : '' }}>
                             <img src="assets/img/cars/Van.png" alt="Car 5">
                         </label>
                     </div>
