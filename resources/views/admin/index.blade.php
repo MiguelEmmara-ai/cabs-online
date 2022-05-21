@@ -10,13 +10,12 @@
                     <h3 class="text-dark mb-4">Welcome Back, {{ auth()->user()->username }} </h3>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 text-end" style="margin-bottom: 30px;">
-                    <a class="btn btn-primary mx-1 mb-2" role="button" onclick="showall()">
+                    <a class="btn btn-primary mx-1 mb-2 showAll" role="button" name="showAllBtn">
                         <i class="fa fa-plus"></i>&nbsp;Show All Bookings </a>
-                    <a class="btn btn-primary mx-1 mb-2" role="button" onclick="showRecent()">
+                    <a class="btn btn-primary mx-1 mb-2 showRecent" role="button" name="showRecentBtn">
                         <i class="fa fa-plus"></i>&nbsp;Show Recent Bookings </a>
-                    <a class="btn btn-primary mx-1 mb-2" role="button" onclick="showAvailPassengers()">
+                    <a class="btn btn-primary mx-1 mb-2 showAvailPassengers" role="button" name="showAvailPassengersBtn">
                         <i class="fa fa-plus"></i>&nbsp;Show All Available Bookings </a>
-                    {{-- <a href="/logout" class="btn btn-primary mb-2">Sign Out</a> --}}
 
                     <form action="/logout" method="POST" class="d-inline">
                         @csrf
@@ -43,12 +42,12 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <button class="btn btn-primary flex-fill py-2 mb-2" type="submit">
+                                        <button class="btn btn-primary flex-fill py-2 mb-2 assignBtn" type="submit">
                                             <i class="far fa-paper-plane"></i> ASSIGN
                                         </button>
 
-                                        <a class="btn btn-primary mx-1 mb-2" role="button" name="sbutton" id="sbutton"
-                                            onclick="searchPassengers(booking.value)">
+                                        <a class="btn btn-primary mx-1 mb-2 searchBtn" role="button" name="sbutton"
+                                            id="sbutton">
                                             <i class="fas fa-search"></i></i> Search </a>
                                     </div>
                                 </div>
