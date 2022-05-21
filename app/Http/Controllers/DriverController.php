@@ -106,7 +106,24 @@ class DriverController extends Controller
 
     public function assign(Request $request, Passenger $passenger)
     {
+        // TODO CHECK BOOKINGREFNO
         Passenger::where('bookingRefNo', $request['bookingRefNo'])
+            ->update([
+                'status' => 'Assigned',
+                'assignedBy' => auth()->user()->username,
+            ]);
+
+        return redirect('/admin')->with('success', 'Booking Has Been Assigned');
+    }
+
+    public function assignManual(Request $request, Passenger $passenger)
+    {
+        // TODO CHECK BOOKINGREFNO
+        $validated = $request->validate([
+            'bookingInput' => 'required',
+        ]);
+
+        Passenger::where('bookingRefNo', $validated['bookingInput'])
             ->update([
                 'status' => 'Assigned',
                 'assignedBy' => auth()->user()->username,
