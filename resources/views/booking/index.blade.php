@@ -1,77 +1,125 @@
 @extends('layouts.main')
 
 @section('container')
-    @php
-    // Define variables and initialize with empty values
-    $fName = $lName = $phoneNumber = $unitNumber = $streetNumber = $streetName = $suburb = $destinationSuburb = $cars = '';
-    $fName_err = $lName_err = $phoneNumber_err = $unitNumber_err = $streetNumber_err = $streetName_err = $suburb_err = $destinationSuburb_err = '';
-    @endphp
     @include('partials.navbar')
     <!-- Start: Contact Form Clean -->
     <section class="contact-clean">
         <div class="container">
             <div class="row">
                 <div class="col-lg-7">
-                    <form action="booking" method="POST" style="margin-top: 70px;max-width: 1000px;">
+                    <form action="/booking" method="POST" style="margin-top: 70px;max-width: 1000px;">
                         @csrf
 
                         <h2 class="text-center">Book A Ride</h2>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @if (session()->has('success'))
+                            <script>
+                                Swal.fire(
+                                    'Thank you for your booking!',
+                                    '{{ session('success') }}',
+                                    'success'
+                                )
+                            </script>
+                        @endif
+
                         <div class="mb-3">
                             <p><strong>First Name</strong></p>
-                            <input type="text" id="fName" name="fName" placeholder="👤 Miguel" required=""
-                                class="form-control @php echo !empty($fName_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $fName; @endphp">
-                            <span class="invalid-feedback">@php echo $fName_err; @endphp</span>
+                            <input type="text" id="fName" name="fName" placeholder="👤 Miguel"
+                                class="form-control @error('fName') is-invalid @enderror" required
+                                value="{{ old('fName') }}">
+                            @error('fName')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Last Name</strong></p>
-                            <input type="text" id="lName" name="lName" placeholder="👤 Emmara" required=""
-                                class="form-control @php echo !empty($lName_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $lName; @endphp">
-                            <span class="invalid-feedback">@php echo $lName_err; @endphp</span>
+                            <input type="text" id="lName" name="lName" placeholder="👤 Emmara"
+                                class="form-control @error('lName') is-invalid @enderror" required
+                                value="{{ old('lName') }}">
+                            @error('lName')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Contact Phone</strong></p>
                             <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
-                                required=""
-                                class="form-control @php echo !empty($phoneNumber_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $phoneNumber; @endphp">
-                            <span class="invalid-feedback">@php echo $phoneNumber_err; @endphp</span>
+                                class="form-control @error('phoneNumber') is-invalid @enderror" required
+                                value="{{ old('phoneNumber') }}">
+                            @error('phoneNumber')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Unit Number</strong></p>
-                            <input type="text" id="unumber" name="unitNumber" placeholder="🏡 143" required=""
-                                class="form-control @php echo !empty($unitNumber_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $unitNumber; @endphp">
-                            <span class="invalid-feedback">@php echo $unitNumber_err; @endphp</span>
+                            <input type="text" id="unumber" name="unitNumber" placeholder="🏡 143"
+                                class="form-control @error('unitNumber') is-invalid @enderror" required
+                                value="{{ old('unitNumber') }}">
+                            @error('unitNumber')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Street Number</strong></p>
-                            <input type="text" id="snumber" name="streetNumber" placeholder="🏡 55" required=""
-                                class="form-control @php echo !empty($streetNumber_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $streetNumber; @endphp">
-                            <span class="invalid-feedback">@php echo $streetNumber_err; @endphp</span>
+                            <input type="text" id="snumber" name="streetNumber" placeholder="🏡 55"
+                                class="form-control @error('streetNumber') is-invalid @enderror" required
+                                value="{{ old('streetNumber') }}">
+                            @error('streetNumber')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Street Name</strong><br></p>
-                            <input type="text" id="stname" name="streetName" placeholder="🏡 Arrow Smith Road" required=""
-                                class="form-control @php echo !empty($streetName_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $streetName; @endphp">
-                            <span class="invalid-feedback">@php echo $streetName_err; @endphp</span>
+                            <input type="text" id="stname" name="streetName" placeholder="🏡 Arrow Smith Road"
+                                class="form-control @error('streetName') is-invalid @enderror" required
+                                value="{{ old('streetName') }}">
+                            @error('streetName')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Suburb Name</strong><br></p>
-                            <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD" required=""
-                                class="form-control @php echo !empty($suburb_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $suburb; @endphp">
-                            <span class="invalid-feedback">@php echo $suburb_err; @endphp</span>
+                            <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
+                                class="form-control @error('suburb') is-invalid @enderror" required
+                                value="{{ old('suburb') }}">
+                            @error('suburb')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Destination Suburb</strong><br></p>
-                            <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau" required=""
-                                class="form-control @php echo !empty($destinationSuburb_err) ? 'is-invalid' : ''; @endphp"
-                                value="@php echo $destinationSuburb; @endphp">
-                            <span class="invalid-feedback">@php echo $destinationSuburb_err; @endphp</span>
+                            <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
+                                class="form-control @error('destinationSuburb') is-invalid @enderror" required
+                                value="{{ old('destinationSuburb') }}">
+                            @error('destinationSuburb')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <p><strong>Selected Car</strong><br></p>
