@@ -83,7 +83,7 @@
                                     @foreach ($passengers as $passenger)
                                         <tbody class="text-center">
                                             <tr id="{{ $passenger->bookingRefNo }}">
-                                                <td>{{ $passenger->bookingRefNo }}</td>
+                                                <td name="bookingRefNo">{{ $passenger->bookingRefNo }}</td>
                                                 <td>{{ $passenger->customerName }}</td>
                                                 <td>{{ $passenger->phoneNumber }}</td>
                                                 <td>{{ $passenger->unitNumber }}</td>
@@ -100,14 +100,23 @@
                                                 <td>{{ $passenger->assignedBy }}</td>
                                                 @if ($passenger->status == 'Assigned')
                                                     <td class="text-center align-middle"
-                                                        style="max-height: 60px;height: 60px;"><a
-                                                            class="btn btn-primary disabled" role="button"
-                                                            aria-disabled="true"><i
-                                                                class="far fa-paper-plane"></i>&nbsp;ASSIGN</a></td>
+                                                        style="max-height: 60px;height: 60px;">
+                                                        <a class="btn btn-primary disabled" role="button"
+                                                            aria-disabled="true">
+                                                            <i class="far fa-paper-plane"></i>&nbsp;ASSIGN</a>
+                                                    </td>
                                                 @else
                                                     <td class="text-center align-middle"
-                                                        style="max-height: 60px;height: 60px;"><a class="btn btn-primary"
-                                                            role="button"><i class="far fa-paper-plane"></i>&nbsp;ASSIGN</a>
+                                                        style="max-height: 60px;height: 60px;">
+
+                                                        <form action="all" method="post" class="d-inline">
+                                                            @csrf
+
+                                                            <button type="submit" name="bookingRefNo"
+                                                                value="{{ $passenger->bookingRefNo }}"
+                                                                class="btn btn-primary"><i
+                                                                    class="far fa-paper-plane"></i>&nbsp;ASSIGN</a></button>
+                                                        </form>
                                                     </td>
                                                 @endif
                                             </tr>
