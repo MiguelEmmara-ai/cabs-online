@@ -13,9 +13,19 @@
         </script>
     @endif
 
+    @if (session()->has('loginError'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ session('loginError') }}'
+            })
+        </script>
+    @endif
+
     <!-- Start: Login Form Clean -->
     <section class="login-clean" style="padding-top: 180px;">
-        <form action="login" method="POST">
+        <form action="/login" method="POST">
             @csrf
 
             @php
