@@ -63,7 +63,7 @@ class DriverController extends Controller
 
     public function showRecent(Passenger $Passengers)
     {
-        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at','desc')->take(7)->get();
+        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->get();
 
         return view('admin.recent', [
             'title' => 'All Passengers Recent Booking',
@@ -102,6 +102,17 @@ class DriverController extends Controller
     public function update(Request $request, Driver $driver)
     {
         //
+    }
+
+    public function assign(Request $request, Passenger $passenger)
+    {
+        Passenger::where('bookingRefNo', $request['bookingRefNo'])
+            ->update([
+                'status' => 'Assigned',
+                'assignedBy' => auth()->user()->username,
+            ]);
+
+        return redirect('/admin')->with('success', 'Booking Has Been Assigned');
     }
 
     /**
