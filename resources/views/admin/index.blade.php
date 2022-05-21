@@ -3,6 +3,16 @@
 @section('container')
     @include('partials.navbar')
     <section>
+        @if (session()->has('success'))
+            <script>
+                Swal.fire(
+                    'Congratulations!',
+                    '{{ session('success') }}',
+                    'success'
+                )
+            </script>
+        @endif
+
         <!-- Start: Ludens - 1 Index Table with Search & Sort Filters  -->
         <div class="container-fluid">
             <div class="row">
@@ -14,7 +24,8 @@
                         <i class="fa fa-plus"></i>&nbsp;Show All Bookings </a>
                     <a href="admin/recent" class="btn btn-primary mx-1 mb-2 showRecent" role="button" name="showRecentBtn">
                         <i class="fa fa-plus"></i>&nbsp;Show Recent Bookings </a>
-                    <a href="admin/avail" class="btn btn-primary mx-1 mb-2 showAvailPassengers" role="button" name="showAvailPassengersBtn">
+                    <a href="admin/avail" class="btn btn-primary mx-1 mb-2 showAvailPassengers" role="button"
+                        name="showAvailPassengersBtn">
                         <i class="fa fa-plus"></i>&nbsp;Show All Available Bookings </a>
 
                     <form action="/logout" method="POST" class="d-inline">
