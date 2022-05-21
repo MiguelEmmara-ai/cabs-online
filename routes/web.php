@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,22 @@ Route::get('/booking', function () {
     return view('booking');
 });
 
-Route::resource('/register', RegisterController::class);
+// Route::resource('/register', RegisterController::class);
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::get('/register', [RegisterController::class, 'index'])
+    ->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/login', [LoginController::class, 'index'])
+    ->name('login')
+    ->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+
+Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/admin', function () {
+    return view('admin.index', [
+        'title' => 'Dashboard Admin',
+        "active" => "login"
+    ]);
+})->middleware('auth');
