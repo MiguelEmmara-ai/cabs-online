@@ -20,4 +20,6 @@ class Driver extends Model
         'password',
         'carsAvailability',
     ];
+
+    public $table = 'drivers';
 }
