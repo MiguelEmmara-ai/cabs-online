@@ -45,24 +45,28 @@
                             <p class="text-primary m-0 fw-bold">All Bookings</p>
                         </div>
                         <div class="col-md-2 py-2 text-end">
-                            <form class="form-inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+
+                            <form action="admin/assign-manual" method="POST" class="form-inline">
+                                @csrf
+
                                 <div class="row g-3 align-items-center">
                                     <div class="col-auto">
-                                        <input class="form-control mb-2" type="text" name="booking" id="booking"
+                                        <input class="form-control mb-2" type="text" name="bookingInput" id="booking"
                                             placeholder="Booking Number">
                                     </div>
 
                                     <div class="col-auto">
-                                        <button class="btn btn-primary flex-fill py-2 mb-2 assignBtn" type="submit">
-                                            <i class="far fa-paper-plane"></i> ASSIGN
-                                        </button>
+                                        <button type="submit" name="bookingRefNo" value="bookingInput.value"
+                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn">
+                                            <i class="far fa-paper-plane"></i> Assign</button>
 
-                                        <a class="btn btn-primary mx-1 mb-2 searchBtn" role="button" name="sbutton"
-                                            id="sbutton">
-                                            <i class="fas fa-search"></i></i> Search </a>
+                                        <button type="submit" name="searchBtn" value="bookingInput.value"
+                                            class="btn btn-primary flex-fill py-2 mb-2 searchBtn">
+                                            <i class="fas fa-search"></i> Search</button>
                                     </div>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>
