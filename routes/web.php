@@ -57,7 +57,10 @@ Route::get('/admin', function () {
 Route::get('/admin/all', [DriverController::class, 'showAll'])
     ->middleware('auth');
 
-Route::post('/admin/{type}', [DriverController::class, 'assign'])
+Route::post('/admin/assign', [DriverController::class, 'assign'])
+    ->middleware('auth');
+
+Route::post('/admin/assign-manual', [DriverController::class, 'assignManual'])
     ->middleware('auth');
 
 Route::get('/admin/recent', [DriverController::class, 'showRecent'])
