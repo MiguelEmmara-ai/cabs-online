@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -29,9 +30,7 @@ Route::get('/booking', function () {
     return view('booking');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+Route::resource('/register', RegisterController::class);
 
 Route::get('/login', function () {
     return view('login');
