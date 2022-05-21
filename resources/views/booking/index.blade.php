@@ -12,55 +12,65 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-7">
-                    <form action="booking" method="POST"
-                        style="margin-top: 70px;max-width: 1000px;">
+                    <form action="booking" method="POST" style="margin-top: 70px;max-width: 1000px;">
+                        @csrf
+
                         <h2 class="text-center">Book A Ride</h2>
                         <div class="mb-3">
                             <p><strong>First Name</strong></p>
                             <input type="text" id="fName" name="fName" placeholder="👤 Miguel" required=""
-                                class="form-control @php echo !empty($fName_err) ? 'is-invalid' : ''; @endphp" value="@php echo $fName; @endphp">
+                                class="form-control @php echo !empty($fName_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $fName; @endphp">
                             <span class="invalid-feedback">@php echo $fName_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Last Name</strong></p>
                             <input type="text" id="lName" name="lName" placeholder="👤 Emmara" required=""
-                                class="form-control @php echo !empty($lName_err) ? 'is-invalid' : ''; @endphp" value="@php echo $lName; @endphp">
+                                class="form-control @php echo !empty($lName_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $lName; @endphp">
                             <span class="invalid-feedback">@php echo $lName_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Contact Phone</strong></p>
-                            <input type="text" id="phone" name="phone" placeholder="☎️ Format = 0123456789" required=""
-                                class="form-control @php echo !empty($phoneNumber_err) ? 'is-invalid' : ''; @endphp" value="@php echo $phoneNumber; @endphp">
+                            <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
+                                required=""
+                                class="form-control @php echo !empty($phoneNumber_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $phoneNumber; @endphp">
                             <span class="invalid-feedback">@php echo $phoneNumber_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Unit Number</strong></p>
-                            <input type="text" id="unumber" name="unumber" placeholder="🏡 143" required=""
-                                class="form-control @php echo !empty($unitNumber_err) ? 'is-invalid' : ''; @endphp" value="@php echo $unitNumber; @endphp">
+                            <input type="text" id="unumber" name="unitNumber" placeholder="🏡 143" required=""
+                                class="form-control @php echo !empty($unitNumber_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $unitNumber; @endphp">
                             <span class="invalid-feedback">@php echo $unitNumber_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Street Number</strong></p>
-                            <input type="text" id="snumber" name="snumber" placeholder="🏡 55" required=""
-                                class="form-control @php echo !empty($streetNumber_err) ? 'is-invalid' : ''; @endphp" value="@php echo $streetNumber; @endphp">
+                            <input type="text" id="snumber" name="streetNumber" placeholder="🏡 55" required=""
+                                class="form-control @php echo !empty($streetNumber_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $streetNumber; @endphp">
                             <span class="invalid-feedback">@php echo $streetNumber_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Street Name</strong><br></p>
-                            <input type="text" id="stname" name="stname" placeholder="🏡 Arrow Smith Road" required=""
-                                class="form-control @php echo !empty($streetName_err) ? 'is-invalid' : ''; @endphp" value="@php echo $streetName; @endphp">
+                            <input type="text" id="stname" name="streetName" placeholder="🏡 Arrow Smith Road" required=""
+                                class="form-control @php echo !empty($streetName_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $streetName; @endphp">
                             <span class="invalid-feedback">@php echo $streetName_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Suburb Name</strong><br></p>
-                            <input type="text" id="sbname" name="sbname" placeholder="🏙️ Auckland CBD" required=""
-                                class="form-control @php echo !empty($suburb_err) ? 'is-invalid' : ''; @endphp" value="@php echo $suburb; @endphp">
+                            <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD" required=""
+                                class="form-control @php echo !empty($suburb_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $suburb; @endphp">
                             <span class="invalid-feedback">@php echo $suburb_err; @endphp</span>
                         </div>
                         <div class="mb-3">
                             <p><strong>Destination Suburb</strong><br></p>
-                            <input type="text" id="dsbname" name="dsbname" placeholder="🏙️ Manukau" required=""
-                                class="form-control @php echo !empty($destinationSuburb_err) ? 'is-invalid' : ''; @endphp" value="@php echo $destinationSuburb; @endphp">
+                            <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau" required=""
+                                class="form-control @php echo !empty($destinationSuburb_err) ? 'is-invalid' : ''; @endphp"
+                                value="@php echo $destinationSuburb; @endphp">
                             <span class="invalid-feedback">@php echo $destinationSuburb_err; @endphp</span>
                         </div>
                         <div class="mb-3">
@@ -68,35 +78,35 @@
 
                             <div class="form-check form-check-inline">
                                 <label>
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                    <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio1"
                                         value="Scooter" checked required>
                                     <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                    <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio2"
                                         value="Hatchback" required>
                                     <img src="assets/img/cars/Hatchback.png" alt="Car 2">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                                    <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio3"
                                         value="Suv" required>
                                     <img src="assets/img/cars/Suv.png" alt="Car 3">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4"
+                                    <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio4"
                                         value="Sedan" required>
                                     <img src="assets/img/cars/Sedan.png" alt="Car 4">
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <label>
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5"
+                                    <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio5"
                                         value="Van" required>
                                     <img src="assets/img/cars/Van.png" alt="Car 5">
                                 </label>
@@ -105,7 +115,7 @@
 
                         <div class="mb-3">
                             @php
-                            $date = date('Y-m-d');
+                                $date = date('Y-m-d');
                             @endphp
                             <p><strong>Pick-Up Date</strong><br></p>
                             <input class="form-control form-control-lg" type="date" id="pickUpDate" name="pickUpDate"
@@ -113,7 +123,7 @@
                         </div>
                         <div class="mb-3">
                             @php
-                            $dateTime = new DateTime('now', new DateTimeZone('Pacific/Auckland'));
+                                $dateTime = new DateTime('now', new DateTimeZone('Pacific/Auckland'));
                             @endphp
                             <p><strong>Pick-Up Time</strong><br></p>
                             <input class="form-control form-control-lg" type="time" id="pickUpTime" name="pickUpTime"
