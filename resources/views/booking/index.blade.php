@@ -33,6 +33,36 @@
                             </script>
                         @endif
 
+                        @if (session()->has('sbname'))
+                            <script>
+                                Swal.fire({
+                                    icon: 'question',
+                                    title: 'Going Somewhere?',
+                                    text: 'We Just Need A Little Bit More Info For Our Taxi Riders',
+                                    showDenyButton: true,
+                                    confirmButtonText: 'OK',
+                                    denyButtonText: 'Cancel',
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        Swal.fire('Lets Fill Out Some Info For Our Taxi Riders', '', 'info')
+                                    } else if (result.isDenied) {
+                                        location.href = "/cancel-booking";
+                                    }
+                                })
+                            </script>
+                        @endif
+
+                        @if (session()->has('cancelSuccess'))
+                            <script>
+                                Swal.fire(
+                                    'Canceled Success!',
+                                    '{{ session('cancelSuccess') }}',
+                                    'success'
+                                )
+                            </script>
+                        @endif
+
                         <div class="mb-3">
                             <p><strong>First Name</strong></p>
                             <input type="text" id="fName" name="fName" placeholder="👤 Miguel"
@@ -57,14 +87,27 @@
                         </div>
                         <div class="mb-3">
                             <p><strong>Contact Phone</strong></p>
-                            <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
-                                class="form-control @error('phoneNumber') is-invalid @enderror" required
-                                value="{{ old('phoneNumber') }}">
-                            @error('phoneNumber')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+
+                            @if (session()->exists('phone'))
+                                <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
+                                    class="form-control @error('phoneNumber') is-invalid @enderror" required
+                                    value="{{ session()->get('phone') }}">
+                                @error('phoneNumber')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            @else
+                                <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
+                                    class="form-control @error('phoneNumber') is-invalid @enderror" required
+                                    value="{{ old('phoneNumber') }}">
+                                @error('phoneNumber')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            @endif
+
                         </div>
                         <div class="mb-3">
                             <p><strong>Unit Number</strong></p>
@@ -101,25 +144,51 @@
                         </div>
                         <div class="mb-3">
                             <p><strong>Suburb Name</strong><br></p>
-                            <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
-                                class="form-control @error('suburb') is-invalid @enderror" required
-                                value="{{ old('suburb') }}">
-                            @error('suburb')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+
+                            @if (session()->exists('sbname'))
+                                <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
+                                    class="form-control @error('suburb') is-invalid @enderror" required
+                                    value="{{ session()->get('sbname') }}">
+                                @error('suburb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            @else
+                                <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
+                                    class="form-control @error('suburb') is-invalid @enderror" required
+                                    value="{{ old('suburb') }}">
+                                @error('suburb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            @endif
+
                         </div>
                         <div class="mb-3">
                             <p><strong>Destination Suburb</strong><br></p>
-                            <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
-                                class="form-control @error('destinationSuburb') is-invalid @enderror" required
-                                value="{{ old('destinationSuburb') }}">
-                            @error('destinationSuburb')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+
+                            @if (session()->exists('dsbname'))
+                                <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
+                                    class="form-control @error('destinationSuburb') is-invalid @enderror" required
+                                    value="{{ session()->get('dsbname') }}">
+                                @error('destinationSuburb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            @else
+                                <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
+                                    class="form-control @error('destinationSuburb') is-invalid @enderror" required
+                                    value="{{ old('destinationSuburb') }}">
+                                @error('destinationSuburb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            @endif
+
                         </div>
                         <div class="mb-3">
                             <p><strong>Selected Car</strong><br></p>

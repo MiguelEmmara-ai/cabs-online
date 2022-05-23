@@ -113,4 +113,32 @@ class PassengerController extends Controller
     {
         //
     }
+
+    /**
+     * Continue booking from home page
+     *
+     */
+    public function continueBooking(Request $request)
+    {
+        $request->session()->put('sbname', $request['sbname']);
+        $request->session()->put('dsbname', $request['dsbname']);
+        $request->session()->put('phone', $request['phone']);
+
+        return view('booking.index', [
+            'title' => 'Book A Cab',
+        ]);
+    }
+
+    /**
+     * Cancel booking, clear all session
+     *
+     */
+    public function cancelBooking(Request $request)
+    {
+        $request->session()->pull('sbname', $request['sbname']);
+        $request->session()->pull('dsbname', $request['dsbname']);
+        $request->session()->pull('phone', $request['phone']);
+
+        return redirect('/booking')->with('cancelSuccess', 'Your Booking Has Been Canceled!');
+    }
 }

@@ -85,7 +85,9 @@
     <section class="highlight-phone" style="background: rgb(255,192,0);">
         <div id="booking-cta" class="container text-center">
             <h3>Book A Ride Now</h3>
-            <form class="row g-3" method="POST" action="/booking">
+            <form class="row g-3" method="POST" action="continue-booking">
+                @csrf
+
                 <div class="mb-3">
                     <div class="form-check form-check-inline">
                         <label>
@@ -114,7 +116,6 @@
                                 value="option4" required>
                             <img src="assets/img/cars/Sedan.png" alt="Car 4">
                         </label>
-
                     </div>
                     <div class="form-check form-check-inline">
                         <label>
@@ -132,7 +133,7 @@
                     <input type="text" class="form-control" id="dsbname" placeholder="🏡 To..." name="dsbname">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="☎️ Phone Number" name="phone">
+                    <input type="text" class="form-control" placeholder="☎️ Phone Number" id="phone" name="phone">
                 </div>
                 <div class="col-md-3">
                     <input type="date" class="form-control" id="pickUpDate" name="pickUpDate">
