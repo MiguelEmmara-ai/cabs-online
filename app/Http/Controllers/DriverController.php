@@ -55,7 +55,7 @@ class DriverController extends Controller
     {
         $passengers = Passenger::paginate(7)->withQueryString();
 
-        return view('admin.all', [
+        return view('admin.table', [
             'title' => 'All Passengers Booking',
             "passengers" => $passengers,
         ]);
@@ -63,9 +63,9 @@ class DriverController extends Controller
 
     public function showRecent(Passenger $Passengers)
     {
-        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->get();
+        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->paginate(7)->withQueryString();
 
-        return view('admin.recent', [
+        return view('admin.table', [
             'title' => 'All Passengers Recent Booking',
             "passengers" => $Passengers,
         ]);
@@ -75,7 +75,7 @@ class DriverController extends Controller
     {
         $Passengers = Passenger::where('status', 'Unassigned')->paginate(7)->withQueryString();
 
-        return view('admin.avail', [
+        return view('admin.table', [
             'title' => 'All Passengers Available Booking',
             "passengers" => $Passengers,
         ]);
@@ -106,7 +106,6 @@ class DriverController extends Controller
 
     public function assign(Request $request, Passenger $passenger)
     {
-        // TODO CHECK BOOKINGREFNO
         Passenger::where('bookingRefNo', $request['bookingRefNo'])
             ->update([
                 'status' => 'Assigned',
@@ -118,18 +117,36 @@ class DriverController extends Controller
 
     public function assignManual(Request $request, Passenger $passenger)
     {
-        // TODO CHECK BOOKINGREFNO
         $validated = $request->validate([
             'bookingInput' => 'required',
         ]);
 
-        Passenger::where('bookingRefNo', $validated['bookingInput'])
-            ->update([
-                'status' => 'Assigned',
-                'assignedBy' => auth()->user()->username,
-            ]);
+        // Check if bookingRefNo exist and Status its 'Unassigned'
+        $exist = Passenger::select('bookingRefNo')
+            ->where('bookingRefNo', $request->input('bookingInput'))
+            ->first();
 
-        return redirect('/admin')->with('success', 'Booking Has Been Assigned');
+        if ($exist) {
+            $isUnassigned = Passenger::select('bookingRefNo')
+                ->where('bookingRefNo', $request->input('bookingInput'))
+                ->where('status', 'Unassigned')
+                ->first();
+
+            if ($isUnassigned) {
+                Passenger::where('bookingRefNo', $validated['bookingInput'])
+                    ->update([
+                        'status' => 'Assigned',
+                        'assignedBy' => auth()->user()->username,
+                    ]);
+
+                return redirect('/admin')->with('success', 'Booking Has Been Assigned');
+            }
+
+            return redirect('/admin')->with('unassignedError', 'This Booking Has Been Assigned, Please Choose Another Passengers');
+
+        }
+
+        return redirect('/admin')->with('unassignedError', 'This Booking Number Did Not Exist');
     }
 
     /**
