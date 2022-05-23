@@ -54,11 +54,11 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <button type="submit" name="bookingRefNo" value="bookingInput.value"
+                                        <button type="submit" name="actionBtn" value="bookingRefNoBtn"
                                             class="btn btn-primary flex-fill py-2 mb-2 assignBtn">
                                             <i class="far fa-paper-plane"></i> Assign</button>
 
-                                        <button type="submit" name="searchBtn" value="bookingInput.value"
+                                        <button type="submit" name="actionBtn" value="searchBtn"
                                             class="btn btn-primary flex-fill py-2 mb-2 searchBtn">
                                             <i class="fas fa-search"></i> Search</button>
                                     </div>
