@@ -22,9 +22,9 @@ class RegisterController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required|email:dns|unique:users',
-            'username' => 'required|min:5|max:255|',
-            'password' => 'required|min:8|max:255|',
-            'confirm_password' => 'required_with:password|same:password|min:8|max:255|',
+            'username' => 'required|min:5|max:255|unique:users',
+            'password' => 'required|min:8|max:255',
+            'confirm_password' => 'required_with:password|same:password|min:8|max:255',
             'carsAvailability' => 'required',
         ]);
 
