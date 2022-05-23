@@ -31,12 +31,6 @@ Route::get('/about', function () {
 
 Route::resource('/booking', PassengerController::class);
 
-// Route::get('/booking', function () {
-//     return view('booking');
-// });
-
-// Route::resource('/register', RegisterController::class);
-
 Route::get('/register', [RegisterController::class, 'index'])
     ->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
@@ -54,13 +48,13 @@ Route::get('/admin', function () {
     ]);
 })->middleware('auth');
 
-Route::get('/admin/all', [DriverController::class, 'showAll'])
-    ->middleware('auth');
-
 Route::post('/admin/assign', [DriverController::class, 'assign'])
     ->middleware('auth');
 
 Route::post('/admin/assign-manual', [DriverController::class, 'assignManual'])
+    ->middleware('auth');
+
+Route::get('/admin/all', [DriverController::class, 'showAll'])
     ->middleware('auth');
 
 Route::get('/admin/recent', [DriverController::class, 'showRecent'])
