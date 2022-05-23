@@ -36,6 +36,14 @@
                         </div>
                         <div class="col-md-2 py-2 text-end">
 
+                            @if ($errors->any())
+                                <div class="alert alert-danger text-center">
+                                    @foreach ($errors->all() as $error)
+                                        {{ $error }}
+                                    @endforeach
+                                </div>
+                            @endif
+
                             <form action="assign-manual" method="POST" class="form-inline">
                                 @csrf
 
@@ -127,6 +135,9 @@
                                         </tbody>
                                     @endforeach
                                 </table>
+                                <div class="d-flex justify-content-end">
+                                    {{ $passengers->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

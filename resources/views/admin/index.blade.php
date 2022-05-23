@@ -13,6 +13,16 @@
             </script>
         @endif
 
+        @if (session()->has('unassignedError'))
+            <script>
+                Swal.fire(
+                    'Error!',
+                    '{{ session('unassignedError') }}',
+                    'error'
+                )
+            </script>
+        @endif
+
         <!-- Start: Ludens - 1 Index Table with Search & Sort Filters  -->
         <div class="container-fluid">
             <div class="row">
@@ -45,6 +55,14 @@
                             <p class="text-primary m-0 fw-bold">All Bookings</p>
                         </div>
                         <div class="col-md-2 py-2 text-end">
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger text-center">
+                                    @foreach ($errors->all() as $error)
+                                        {{ $error }}
+                                    @endforeach
+                                </div>
+                            @endif
 
                             <form action="admin/assign-manual" method="POST" class="form-inline">
                                 @csrf
