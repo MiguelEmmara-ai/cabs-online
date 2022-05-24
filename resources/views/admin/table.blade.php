@@ -31,37 +31,48 @@
             <div class="card" id="TableSorterCard">
                 <div class="card-header py-3">
                     <div class="row table-topper align-items-center justify-content-between">
-                        <div class="col-md-4 text-start">
+                        <div class="col-lg-5 text-start">
                             <p class="text-primary m-0 fw-bold">All Bookings</p>
                         </div>
-                        <div class="col-md-2 py-2 text-end">
+                        <div class="py-2 text-end">
 
                             @if ($errors->any())
-                                <div class="alert alert-danger text-center">
+                                <div class="alert alert-danger text-center" style="margin-top:0%">
                                     @foreach ($errors->all() as $error)
                                         {{ $error }}
                                     @endforeach
                                 </div>
                             @endif
 
-                            <form action="" method="POST" class="form-inline">
+                            <form action="assign-button" method="POST" class="form-inline">
                                 @csrf
 
                                 <div class="row g-3 align-items-center">
                                     <div class="col-auto">
                                         <input class="form-control mb-2" type="text" name="bookingInput" id="booking"
-                                            placeholder="Booking Number">
+                                            placeholder="Assign Booking Number">
                                     </div>
 
                                     <div class="col-auto">
                                         <button type="submit" name="assignBtn" value="assignBtn"
-                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn"
-                                            formaction="{{ url('/admin/assign-button') }}">
+                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn">
                                             <i class="far fa-paper-plane"></i> Assign</button>
+                                    </div>
+                                </div>
+                            </form>
 
+                            <form action="search-button" method="POST" class="form-inline">
+                                @csrf
+
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto">
+                                        <input class="form-control mb-2" type="text" name="bookingInput" id="booking"
+                                            placeholder="Search Booking Number">
+                                    </div>
+
+                                    <div class="col-auto">
                                         <button type="submit" name="searchBtn" value="searchBtn"
-                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn"
-                                            formaction="{{ url('/admin/search-button') }}">
+                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn">
                                             <i class="far fa-paper-plane"></i> Search</button>
                                     </div>
                                 </div>
