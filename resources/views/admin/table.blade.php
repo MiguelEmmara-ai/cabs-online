@@ -31,10 +31,10 @@
             <div class="card" id="TableSorterCard">
                 <div class="card-header py-3">
                     <div class="row table-topper align-items-center justify-content-between">
-                        <div class="col-md-4 text-start">
+                        <div class="col-lg-5 text-start">
                             <p class="text-primary m-0 fw-bold">All Bookings</p>
                         </div>
-                        <div class="col-md-2 py-2 text-end">
+                        <div class="py-2 text-end">
 
                             @if ($errors->any())
                                 <div class="alert alert-danger text-center" style="margin-top:0%">
@@ -44,7 +44,7 @@
                                 </div>
                             @endif
 
-                            <form action="admin/assign-button" method="POST" class="form-inline">
+                            <form action="assign-button" method="POST" class="form-inline">
                                 @csrf
 
                                 <div class="row g-3 align-items-center">
@@ -61,7 +61,7 @@
                                 </div>
                             </form>
 
-                            <form action="admin/search-button" method="POST" class="form-inline">
+                            <form action="search-button" method="POST" class="form-inline">
                                 @csrf
 
                                 <div class="row g-3 align-items-center">
