@@ -115,9 +115,8 @@ class DriverController extends Controller
         return redirect('/admin')->with('success', 'Booking Has Been Assigned');
     }
 
-    public function assignBtn(Request $request) {
-        // return $request->input('bookingInput');
-
+    public function assignBtn(Request $request)
+    {
         $validated = $request->validate([
             'bookingInput' => 'required',
         ]);
@@ -144,31 +143,43 @@ class DriverController extends Controller
             }
 
             return redirect('/admin')->with('unassignedError', 'This Booking Has Been Assigned, Please Choose Another Passengers');
-
         }
-
         return redirect('/admin')->with('unassignedError', 'This Booking Number Did Not Exist');
     }
 
-    public function searchBtn(Request $request) {
-        // return $request->input('bookingInput');
+    public function searchBtn(Request $request)
+    {
+        $exist = Passenger::select('bookingRefNo')
+            ->where('bookingRefNo', $request->input('bookingInput'))
+            ->first();
 
+        // If bookingInput is empty, we display status = Unassigned bookings
         if (!($request->input('bookingInput'))) {
-            $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->paginate(7)->withQueryString();
-
-            return view('admin.table', [
-                'title' => 'All Passengers Recent Booking',
-                "passengers" => $Passengers,
-            ]);
-        } else {
-            $Passengers = Passenger::where('bookingRefNo', $request->input('bookingInput'))
-                ->paginate(3)
+            $Passengers = Passenger::where('status', 'Unassigned')
+                ->orderBy('created_at', 'desc')
+                ->take(7)
+                ->paginate(7)
                 ->withQueryString();
 
             return view('admin.table', [
                 'title' => 'All Passengers Recent Booking',
                 "passengers" => $Passengers,
             ]);
+        } else {
+            // If bookingInput is NOT empty, we display the specific booking info
+            if ($exist) {
+                $Passengers = Passenger::where('bookingRefNo', $request->input('bookingInput'))
+                    ->paginate(3)
+                    ->withQueryString();
+
+                return view('admin.table', [
+                    'title' => 'All Passengers Recent Booking',
+                    "passengers" => $Passengers,
+                ]);
+            } else {
+                // If bookingInput is NOT empty, And not exist, we display error message
+                return redirect('/admin')->with('unassignedError', 'This Booking Number Did Not Exist');
+            }
         }
     }
 
