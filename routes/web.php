@@ -56,7 +56,7 @@ Route::get('/admin', function () {
 Route::post('/admin/assign', [DriverController::class, 'assign'])
     ->middleware('auth');
 
-Route::post('/admin/assign-button', [DriverController::class, 'assignBtn'])
+Route::match(['get', 'post'], '/admin/assign-button', [DriverController::class, 'assignBtn'])
     ->middleware('auth');
 
 Route::match(['get', 'post'], '/admin/search-button', [DriverController::class, 'searchBtn'])

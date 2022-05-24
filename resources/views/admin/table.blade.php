@@ -44,7 +44,7 @@
                                 </div>
                             @endif
 
-                            <form action="" method="POST" class="form-inline">
+                            <form method="POST" class="form-inline">
                                 @csrf
 
                                 <div class="row g-3 align-items-center">
