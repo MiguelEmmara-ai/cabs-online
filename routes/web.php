@@ -32,7 +32,8 @@ Route::get('/about', function () {
 });
 
 Route::resource('/booking', PassengerController::class);
-Route::post('/continue-booking', [PassengerController::class, 'continueBooking']);
+Route::match(['get', 'post'], '/continue-booking', [PassengerController::class, 'continueBooking']);
+
 Route::get('/cancel-booking', [PassengerController::class, 'cancelBooking']);
 
 Route::get('/register', [RegisterController::class, 'index'])
