@@ -68,6 +68,7 @@
                             <input type="text" id="fName" name="fName" placeholder="👤 Miguel"
                                 class="form-control @error('fName') is-invalid @enderror" required
                                 value="{{ old('fName') }}">
+
                             @error('fName')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -79,6 +80,7 @@
                             <input type="text" id="lName" name="lName" placeholder="👤 Emmara"
                                 class="form-control @error('lName') is-invalid @enderror" required
                                 value="{{ old('lName') }}">
+
                             @error('lName')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -89,9 +91,16 @@
                             <p><strong>Contact Phone</strong></p>
 
                             @if (session()->exists('phone'))
-                                <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
-                                    class="form-control @error('phoneNumber') is-invalid @enderror" required
-                                    value="{{ session()->get('phone') }}">
+                                @if (!empty(session()->get('phone')))
+                                    <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
+                                        class="form-control @error('phoneNumber') is-invalid @enderror" required
+                                        value="{{ session()->get('phone') }}">
+                                @else
+                                    <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
+                                        class="form-control @error('phoneNumber') is-invalid @enderror" required
+                                        value="{{ old('phoneNumber') }}">
+                                @endif
+
                                 @error('phoneNumber')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -101,6 +110,7 @@
                                 <input type="text" id="phone" name="phoneNumber" placeholder="☎️ Format = 0123456789"
                                     class="form-control @error('phoneNumber') is-invalid @enderror" required
                                     value="{{ old('phoneNumber') }}">
+
                                 @error('phoneNumber')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -111,9 +121,11 @@
                         </div>
                         <div class="mb-3">
                             <p><strong>Unit Number</strong></p>
+
                             <input type="text" id="unumber" name="unitNumber" placeholder="🏡 143"
                                 class="form-control @error('unitNumber') is-invalid @enderror" required
                                 value="{{ old('unitNumber') }}">
+
                             @error('unitNumber')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -122,9 +134,11 @@
                         </div>
                         <div class="mb-3">
                             <p><strong>Street Number</strong></p>
+
                             <input type="text" id="snumber" name="streetNumber" placeholder="🏡 55"
                                 class="form-control @error('streetNumber') is-invalid @enderror" required
                                 value="{{ old('streetNumber') }}">
+
                             @error('streetNumber')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -133,9 +147,11 @@
                         </div>
                         <div class="mb-3">
                             <p><strong>Street Name</strong><br></p>
+
                             <input type="text" id="stname" name="streetName" placeholder="🏡 Arrow Smith Road"
                                 class="form-control @error('streetName') is-invalid @enderror" required
                                 value="{{ old('streetName') }}">
+
                             @error('streetName')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -146,9 +162,16 @@
                             <p><strong>Suburb Name</strong><br></p>
 
                             @if (session()->exists('sbname'))
-                                <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
-                                    class="form-control @error('suburb') is-invalid @enderror" required
-                                    value="{{ session()->get('sbname') }}">
+                                @if (!empty(session()->get('sbname')))
+                                    <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
+                                        class="form-control @error('suburb') is-invalid @enderror" required
+                                        value="{{ session()->get('sbname') }}">
+                                @else
+                                    <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
+                                        class="form-control @error('suburb') is-invalid @enderror" required
+                                        value="{{ old('suburb') }}">
+                                @endif
+
                                 @error('suburb')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -158,6 +181,7 @@
                                 <input type="text" id="sbname" name="suburb" placeholder="🏙️ Auckland CBD"
                                     class="form-control @error('suburb') is-invalid @enderror" required
                                     value="{{ old('suburb') }}">
+
                                 @error('suburb')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -170,9 +194,16 @@
                             <p><strong>Destination Suburb</strong><br></p>
 
                             @if (session()->exists('dsbname'))
-                                <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
-                                    class="form-control @error('destinationSuburb') is-invalid @enderror" required
-                                    value="{{ session()->get('dsbname') }}">
+                                @if (!empty(session()->get('dsbname')))
+                                    <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
+                                        class="form-control @error('destinationSuburb') is-invalid @enderror" required
+                                        value="{{ session()->get('dsbname') }}">
+                                @else
+                                    <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
+                                        class="form-control @error('destinationSuburb') is-invalid @enderror" required
+                                        value="{{ old('destinationSuburb') }}">
+                                @endif
+
                                 @error('destinationSuburb')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -182,6 +213,7 @@
                                 <input type="text" id="dsbname" name="destinationSuburb" placeholder="🏙️ Manukau"
                                     class="form-control @error('destinationSuburb') is-invalid @enderror" required
                                     value="{{ old('destinationSuburb') }}">
+
                                 @error('destinationSuburb')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -200,6 +232,7 @@
                                     <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                 </label>
                             </div>
+
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio2"
@@ -207,6 +240,7 @@
                                     <img src="assets/img/cars/Hatchback.png" alt="Car 2">
                                 </label>
                             </div>
+
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio3"
@@ -214,6 +248,7 @@
                                     <img src="assets/img/cars/Suv.png" alt="Car 3">
                                 </label>
                             </div>
+
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio4"
@@ -221,6 +256,7 @@
                                     <img src="assets/img/cars/Sedan.png" alt="Car 4">
                                 </label>
                             </div>
+
                             <div class="form-check form-check-inline">
                                 <label>
                                     <input class="form-check-input" type="radio" name="carsNeed" id="inlineRadio5"
@@ -231,20 +267,18 @@
                         </div>
 
                         <div class="mb-3">
-                            @php
-                                $date = date('Y-m-d');
-                            @endphp
                             <p><strong>Pick-Up Date</strong><br></p>
                             <input class="form-control form-control-lg" type="date" id="pickUpDate" name="pickUpDate"
-                                required="" value=@php echo $date; @endphp>
+                                required="" value={{ date('Y-m-d') }}>
                         </div>
                         <div class="mb-3">
                             @php
                                 $dateTime = new DateTime('now', new DateTimeZone('Pacific/Auckland'));
                             @endphp
+
                             <p><strong>Pick-Up Time</strong><br></p>
                             <input class="form-control form-control-lg" type="time" id="pickUpTime" name="pickUpTime"
-                                required="" value=@php echo $dateTime->format('H:i A'); @endphp>
+                                required="" value={{ $dateTime->format('H:i A') }}>
                             <!-- @php echo $dateTime->format('H:i A'); @endphp -->
                         </div>
                         <div class="d-flex d-xxl-flex justify-content-xxl-center mb-3">
