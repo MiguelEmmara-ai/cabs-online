@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>Cabs Online | Book A Taxi Ride With Us Today!</title>
+    <title>{{ $title }}</title>
 
     <link rel="icon" type="image/x-icon" href="/assets/img/taxi-logo.ico">
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
