@@ -32,7 +32,8 @@ Route::get('/about', function () {
 });
 
 Route::resource('/booking', PassengerController::class);
-Route::post('/continue-booking', [PassengerController::class, 'continueBooking']);
+Route::match(['get', 'post'], '/continue-booking', [PassengerController::class, 'continueBooking']);
+
 Route::get('/cancel-booking', [PassengerController::class, 'cancelBooking']);
 
 Route::get('/register', [RegisterController::class, 'index'])
@@ -55,7 +56,7 @@ Route::get('/admin', function () {
 Route::post('/admin/assign', [DriverController::class, 'assign'])
     ->middleware('auth');
 
-Route::post('/admin/assign-button', [DriverController::class, 'assignBtn'])
+Route::match(['get', 'post'], '/admin/assign-button', [DriverController::class, 'assignBtn'])
     ->middleware('auth');
 
 Route::match(['get', 'post'], '/admin/search-button', [DriverController::class, 'searchBtn'])
