@@ -13,7 +13,7 @@ class RegisterController extends Controller
     public function index()
     {
         return view('register.index', [
-            'title' => 'Login Admin',
+            'title' => 'Become A Driver | Cabs Online',
             "active" => "login",
         ]);
     }
