@@ -31,7 +31,7 @@ php artisan migrate:fresh
 ```
 
 # Demo
-[CabsOnlineLaravel.MiguelEmmarame](https://cabsonlinelaravel.miguelemmara.me/)
+[CabsOnlineLaravel.MiguelEmmara.Me](https://cabsonlinelaravel.miguelemmara.me/)
 
 # How To Use
 1. Book A Ride      - This page allow the passengers to book their taxi
