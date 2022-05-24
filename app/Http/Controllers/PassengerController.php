@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Passenger;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class PassengerController extends Controller
 {
@@ -38,6 +39,9 @@ class PassengerController extends Controller
      */
     public function store(Request $request)
     {
+        // save ses from continue-booking, could be use to save all data
+        $request->session()->save();
+
         $validated = $request->validate([
             'fName' => 'required|min:3|max:255|',
             'lName' => 'required|min:3|max:255|',
@@ -68,6 +72,8 @@ class PassengerController extends Controller
         $request->session()->pull('sbname', $request['sbname']);
         $request->session()->pull('dsbname', $request['dsbname']);
         $request->session()->pull('phone', $request['phone']);
+        $request->session()->pull('pickUpDate', $request['pickUpDate']);
+        $request->session()->pull('carsNeed', $request['carsNeed']);
 
         return redirect('/booking')
             ->with('success', 'Your Booking Is Underway!');
@@ -128,6 +134,8 @@ class PassengerController extends Controller
         $request->session()->put('sbname', $request['sbname']);
         $request->session()->put('dsbname', $request['dsbname']);
         $request->session()->put('phone', $request['phone']);
+        $request->session()->put('pickUpDate', $request['pickUpDate']);
+        $request->session()->put('carsNeed', $request['carsNeed']);
 
         return view('booking.index', [
             'title' => 'Book A Cab | Cabs Online',
@@ -144,6 +152,8 @@ class PassengerController extends Controller
         $request->session()->pull('sbname', $request['sbname']);
         $request->session()->pull('dsbname', $request['dsbname']);
         $request->session()->pull('phone', $request['phone']);
+        $request->session()->pull('pickUpDate', $request['pickUpDate']);
+        $request->session()->pull('carsNeed', $request['carsNeed']);
 
         return redirect('/booking')->with('cancelSuccess', 'Your Booking Has Been Canceled!');
     }
