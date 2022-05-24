@@ -64,7 +64,7 @@
                                 </div>
                             @endif
 
-                            <form action="admin/assign-manual" method="POST" class="form-inline">
+                            <form action="" method="POST" class="form-inline">
                                 @csrf
 
                                 <div class="row g-3 align-items-center">
@@ -74,13 +74,15 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <button type="submit" name="actionBtn" value="bookingRefNoBtn"
-                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn">
+                                        <button type="submit" name="assignBtn" value="assignBtn"
+                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn"
+                                            formaction="{{ url('/admin/assign-button') }}">
                                             <i class="far fa-paper-plane"></i> Assign</button>
 
-                                        <button type="submit" name="actionBtn" value="searchBtn"
-                                            class="btn btn-primary flex-fill py-2 mb-2 searchBtn">
-                                            <i class="fas fa-search"></i> Search</button>
+                                        <button type="submit" name="searchBtn" value="searchBtn"
+                                            class="btn btn-primary flex-fill py-2 mb-2 assignBtn"
+                                            formaction="{{ url('/admin/search-button') }}">
+                                            <i class="far fa-paper-plane"></i> Search</button>
                                     </div>
                                 </div>
                             </form>
