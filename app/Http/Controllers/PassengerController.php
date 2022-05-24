@@ -64,6 +64,11 @@ class PassengerController extends Controller
 
         Passenger::create($validated);
 
+        // Clear
+        $request->session()->pull('sbname', $request['sbname']);
+        $request->session()->pull('dsbname', $request['dsbname']);
+        $request->session()->pull('phone', $request['phone']);
+
         return redirect('/booking')
             ->with('success', 'Your Booking Is Underway!');
 
@@ -135,6 +140,7 @@ class PassengerController extends Controller
      */
     public function cancelBooking(Request $request)
     {
+        // Clear
         $request->session()->pull('sbname', $request['sbname']);
         $request->session()->pull('dsbname', $request['dsbname']);
         $request->session()->pull('phone', $request['phone']);
