@@ -22,11 +22,13 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('home');
+    return view('home', [
+        'title' => 'Cabs Online | Book A Taxi Ride With Us Today!']);
 });
 
 Route::get('/about', function () {
-    return view('about');
+    return view('about', [
+        'title' => 'About | Cabs Online']);
 });
 
 Route::resource('/booking', PassengerController::class);
@@ -46,14 +48,17 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/admin', function () {
     return view('admin.index', [
-        'title' => 'Dashboard Admin',
+        'title' => 'Dashboard Admin | Cabs Online',
     ]);
 })->middleware('auth');
 
 Route::post('/admin/assign', [DriverController::class, 'assign'])
     ->middleware('auth');
 
-Route::post('/admin/assign-manual', [DriverController::class, 'assignManual'])
+Route::post('/admin/assign-button', [DriverController::class, 'assignBtn'])
+    ->middleware('auth');
+
+Route::match(['get', 'post'], '/admin/search-button', [DriverController::class, 'searchBtn'])
     ->middleware('auth');
 
 Route::get('/admin/all', [DriverController::class, 'showAll'])
