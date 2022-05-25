@@ -370,7 +370,7 @@
                                     type="time" id="pickUpTime" name="pickUpTime" required value={{ old('pickUpTime') }}>
                             @endif
 
-                            @error('streetName')
+                            @error('pickUpTime')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
