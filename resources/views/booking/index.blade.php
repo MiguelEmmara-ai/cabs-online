@@ -322,18 +322,23 @@
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
                                         type="date" id="pickUpDate" name="pickUpDate" required
                                         value={{ session()->get('pickUpDate') }}>
-                                    <p>1</p>
                                 @else
-                                    <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
-                                        type="date" id="pickUpDate" name="pickUpDate" required
-                                        value={{ old('pickUpDate') }}>
-                                    <p>2</p>
+                                    @if (empty(old('pickUpDate')))
+                                        <input
+                                            class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
+                                            type="date" id="pickUpDate" name="pickUpDate" required
+                                            value={{ date('Y-m-d') }}>
+                                    @else
+                                        <input
+                                            class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
+                                            type="date" id="pickUpDate" name="pickUpDate" required
+                                            value={{ old('pickUpDate') }}>
+                                    @endif
                                 @endif
                             @else
                                 @if (empty(old('pickUpDate')))
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
                                         type="date" id="pickUpDate" name="pickUpDate" required value={{ date('Y-m-d') }}>
-                                    <p>3</p>
                                 @else
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
                                         type="date" id="pickUpDate" name="pickUpDate" required
