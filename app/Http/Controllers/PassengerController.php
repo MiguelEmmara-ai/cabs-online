@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Passenger;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class PassengerController extends Controller
@@ -51,8 +51,8 @@ class PassengerController extends Controller
             'streetName' => 'required|min:3|max:255|',
             'suburb' => 'required|min:3|max:255|',
             'destinationSuburb' => 'required|min:3|max:255|',
-            'pickUpDate' => 'required|date',
-            'pickUpTime' => 'required|date_format:H:i',
+            'pickUpDate' => 'required|date|after_or_equal:today',
+            'pickUpTime' => 'required|date_format:H:i|',
             'carsNeed' => 'required',
         ]);
 
@@ -75,9 +75,12 @@ class PassengerController extends Controller
         $request->session()->pull('pickUpDate', $request['pickUpDate']);
         $request->session()->pull('carsNeed', $request['carsNeed']);
 
-        return redirect('/booking')
-            ->with('success', 'Your Booking Is Underway!');
+        // Variable To Pass
+        $pickUpDate = $validated['pickUpDate'];
+        $pickUpTime = $validated['pickUpTime'];
 
+        return redirect('/booking')
+            ->with('success', "Your Booking Is Underway! <br><br> Booking Reference: $referenceNumber <br> Pick Up Date: $pickUpDate <br> Pick Up Time: $pickUpTime");
     }
 
     /**
