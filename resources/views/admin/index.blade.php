@@ -5,11 +5,11 @@
     <section>
         @if (session()->has('success'))
             <script>
-                Swal.fire(
-                    'Congratulations!',
-                    '{{ session('success') }}',
-                    'success'
-                )
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Congratulations!',
+                    html: '{!! session('success') !!}'
+                })
             </script>
         @endif
 

@@ -25,11 +25,12 @@
 
                         @if (session()->has('success'))
                             <script>
-                                Swal.fire(
-                                    'Thank you for your booking!',
-                                    '{{ session('success') }}',
-                                    'success'
-                                )
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank you for your booking!',
+                                    html: '{!! session('success') !!}',
+                                    footer: '<a href="">Book Again</a>'
+                                })
                             </script>
                         @endif
 
