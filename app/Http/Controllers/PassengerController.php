@@ -51,8 +51,8 @@ class PassengerController extends Controller
             'streetName' => 'required|min:3|max:255|',
             'suburb' => 'required|min:3|max:255|',
             'destinationSuburb' => 'required|min:3|max:255|',
-            'pickUpDate' => 'required|date',
-            'pickUpTime' => 'required|date_format:H:i',
+            'pickUpDate' => 'required|date|after_or_equal:today',
+            'pickUpTime' => 'required|date_format:H:i|',
             'carsNeed' => 'required',
         ]);
 
