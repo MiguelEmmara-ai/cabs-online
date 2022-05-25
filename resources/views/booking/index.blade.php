@@ -215,6 +215,7 @@
 
                             <div class="form-check form-check-inline">
                                 <label>
+
                                     @if (session()->exists('carsNeed'))
                                         @if (!empty(session()->get('carsNeed')))
                                             @if (session()->get('carsNeed') == 'Scooter')
@@ -224,7 +225,7 @@
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @else
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Scooter" checked required>
+                                                    value="Scooter" required>
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @endif
                                         @else
@@ -234,20 +235,28 @@
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @else
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Scooter" required>
+                                                    value="Scooter" checked required>
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @endif
                                         @endif
                                     @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Scooter" checked required>
-                                        <img src="assets/img/cars/Scooter.png" alt="Car 1">
+                                        @if (old('carsNeed') == 'Scooter')
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Scooter" checked required>
+                                            <img src="assets/img/cars/Scooter.png" alt="Car 1">
+                                        @else
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Scooter" checked required>
+                                            <img src="assets/img/cars/Scooter.png" alt="Car 1">
+                                        @endif
                                     @endif
+
                                 </label>
                             </div>
 
                             <div class="form-check form-check-inline">
                                 <label>
+
                                     @if (session()->exists('carsNeed'))
                                         @if (!empty(session()->get('carsNeed')))
                                             @if (session()->get('carsNeed') == 'Hatchback')
@@ -272,15 +281,23 @@
                                             @endif
                                         @endif
                                     @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Hatchback" required>
-                                        <img src="assets/img/cars/Hatchback.png" alt="Car 2">
+                                        @if (old('carsNeed') == 'Hatchback')
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Hatchback" checked required>
+                                            <img src="assets/img/cars/Hatchback.png" alt="Car 2">
+                                        @else
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Hatchback" required>
+                                            <img src="assets/img/cars/Hatchback.png" alt="Car 2">
+                                        @endif
                                     @endif
+
                                 </label>
                             </div>
 
                             <div class="form-check form-check-inline">
                                 <label>
+
                                     @if (session()->exists('carsNeed'))
                                         @if (!empty(session()->get('carsNeed')))
                                             @if (session()->get('carsNeed') == 'Suv')
@@ -305,15 +322,23 @@
                                             @endif
                                         @endif
                                     @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Suv" required>
-                                        <img src="assets/img/cars/Suv.png" alt="Car 3">
+                                        @if (old('carsNeed') == 'Suv')
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Suv" checked required>
+                                            <img src="assets/img/cars/Suv.png" alt="Car 3">
+                                        @else
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Suv" required>
+                                            <img src="assets/img/cars/Suv.png" alt="Car 3">
+                                        @endif
                                     @endif
+
                                 </label>
                             </div>
 
                             <div class="form-check form-check-inline">
                                 <label>
+
                                     @if (session()->exists('carsNeed'))
                                         @if (!empty(session()->get('carsNeed')))
                                             @if (session()->get('carsNeed') == 'Sedan')
@@ -338,15 +363,23 @@
                                             @endif
                                         @endif
                                     @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Sedan" required>
-                                        <img src="assets/img/cars/Sedan.png" alt="Car 4">
+                                        @if (old('carsNeed') == 'Sedan')
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Sedan" checked required>
+                                            <img src="assets/img/cars/Sedan.png" alt="Car 4">
+                                        @else
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Sedan" required>
+                                            <img src="assets/img/cars/Sedan.png" alt="Car 4">
+                                        @endif
                                     @endif
+
                                 </label>
                             </div>
 
                             <div class="form-check form-check-inline">
                                 <label>
+
                                     @if (session()->exists('carsNeed'))
                                         @if (!empty(session()->get('carsNeed')))
                                             @if (session()->get('carsNeed') == 'Van')
@@ -371,10 +404,17 @@
                                             @endif
                                         @endif
                                     @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Van" required>
-                                        <img src="assets/img/cars/Van.png" alt="Car 5">
+                                        @if (old('carsNeed') == 'Van')
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Van" checked required>
+                                            <img src="assets/img/cars/Van.png" alt="Car 5">
+                                        @else
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Van" required>
+                                            <img src="assets/img/cars/Van.png" alt="Car 5">
+                                        @endif
                                     @endif
+
                                 </label>
                             </div>
                         </div>
@@ -390,7 +430,8 @@
                                     <p>1</p>
                                 @else
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
-                                        type="date" id="pickUpDate" name="pickUpDate" required value={{ old('pickUpDate') }}>
+                                        type="date" id="pickUpDate" name="pickUpDate" required
+                                        value={{ old('pickUpDate') }}>
                                     <p>2</p>
                                 @endif
                             @else
