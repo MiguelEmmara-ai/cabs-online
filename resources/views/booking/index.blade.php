@@ -271,13 +271,11 @@
                                                         value="{{ session()->get('carsNeed') }}">
                                                     <img src="assets/img/cars/{{ $car }}.png"
                                                         alt="Car {{ $carCount }}">
-                                                    <p>1</p>
                                                 @else
                                                     <input class="form-check-input" type="radio" name="carsNeed"
                                                         id="carsNeed" value={{ $car }} required>
                                                     <img src="assets/img/cars/{{ $car }}.png"
                                                         alt="Car {{ $carCount }}">
-                                                    <p>2</p>
                                                 @endif
                                             @else
                                                 @if (old('carsNeed') == $car)
@@ -285,13 +283,11 @@
                                                         id="carsNeed" value={{ $car }} checked required>
                                                     <img src="assets/img/cars/{{ $car }}.png"
                                                         alt="Car {{ $carCount }}">
-                                                    <p>3</p>
                                                 @else
                                                     <input class="form-check-input" type="radio" name="carsNeed"
                                                         id="carsNeed" value={{ $car }} required>
                                                     <img src="assets/img/cars/{{ $car }}.png"
                                                         alt="Car {{ $carCount }}">
-                                                    <p>4</p>
                                                 @endif
                                             @endif
                                         @else
@@ -300,13 +296,11 @@
                                                     value={{ $car }} checked required>
                                                 <img src="assets/img/cars/{{ $car }}.png"
                                                     alt="Car {{ $carCount }}">
-                                                <p>5</p>
                                             @else
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
                                                     value={{ $car }} required>
                                                 <img src="assets/img/cars/{{ $car }}.png"
                                                     alt="Car {{ $carCount }}">
-                                                <p>6</p>
                                             @endif
                                         @endif
 
