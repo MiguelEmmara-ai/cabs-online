@@ -67,7 +67,7 @@
                         <div class="mb-3">
                             <p><strong>First Name</strong></p>
                             <input type="text" id="fName" name="fName" placeholder="👤 Miguel"
-                                class="form-control @error('fName') is-invalid @enderror" required
+                                class="form-control @error('fName') is-invalid @enderror" required autofocus
                                 value="{{ old('fName') }}">
 
                             @error('fName')
