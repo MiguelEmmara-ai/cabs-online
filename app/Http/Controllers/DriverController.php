@@ -112,7 +112,11 @@ class DriverController extends Controller
                 'assignedBy' => auth()->user()->username,
             ]);
 
-        return redirect('/admin')->with('success', 'Booking Has Been Assigned');
+            // Variable To Pass
+            $bookingRef = $request['bookingRefNo'];
+            $driverName = auth()->user()->username;
+
+        return redirect('/admin')->with('success', "Booking Reference $bookingRef <br> Has Been Assigned For $driverName");
     }
 
     public function assignBtn(Request $request)

@@ -25,11 +25,12 @@
 
                         @if (session()->has('success'))
                             <script>
-                                Swal.fire(
-                                    'Thank you for your booking!',
-                                    '{{ session('success') }}',
-                                    'success'
-                                )
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank you for your booking!',
+                                    html: '{!! session('success') !!}',
+                                    footer: '<a href="">Book Again</a>'
+                                })
                             </script>
                         @endif
 
@@ -66,7 +67,7 @@
                         <div class="mb-3">
                             <p><strong>First Name</strong></p>
                             <input type="text" id="fName" name="fName" placeholder="👤 Miguel"
-                                class="form-control @error('fName') is-invalid @enderror" required
+                                class="form-control @error('fName') is-invalid @enderror" required autofocus
                                 value="{{ old('fName') }}">
 
                             @error('fName')
@@ -215,6 +216,7 @@
 
                             <div class="form-check form-check-inline">
                                 <label>
+
                                     @if (session()->exists('carsNeed'))
                                         @if (!empty(session()->get('carsNeed')))
                                             @if (session()->get('carsNeed') == 'Scooter')
@@ -224,7 +226,7 @@
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @else
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Scooter" checked required>
+                                                    value="Scooter" required>
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @endif
                                         @else
@@ -234,149 +236,83 @@
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @else
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Scooter" required>
+                                                    value="Scooter" checked required>
                                                 <img src="assets/img/cars/Scooter.png" alt="Car 1">
                                             @endif
                                         @endif
                                     @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Scooter" checked required>
-                                        <img src="assets/img/cars/Scooter.png" alt="Car 1">
+                                        @if (old('carsNeed') == 'Scooter')
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Scooter" checked required>
+                                            <img src="assets/img/cars/Scooter.png" alt="Car 1">
+                                        @else
+                                            <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
+                                                value="Scooter" checked required>
+                                            <img src="assets/img/cars/Scooter.png" alt="Car 1">
+                                        @endif
                                     @endif
+
                                 </label>
                             </div>
 
-                            <div class="form-check form-check-inline">
-                                <label>
-                                    @if (session()->exists('carsNeed'))
-                                        @if (!empty(session()->get('carsNeed')))
-                                            @if (session()->get('carsNeed') == 'Hatchback')
-                                                <input class="form-check-input @error('carsNeed') is-invalid @enderror"
-                                                    type="radio" name="carsNeed" id="carsNeed" value="Hatchback" checked
-                                                    required value="{{ session()->get('carsNeed') }}">
-                                                <img src="assets/img/cars/Hatchback.png" alt="Car 2">
-                                            @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Hatchback" required>
-                                                <img src="assets/img/cars/Hatchback.png" alt="Car 2">
-                                            @endif
-                                        @else
-                                            @if (old('carsNeed') == 'Hatchback')
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Hatchback" checked required>
-                                                <img src="assets/img/cars/Hatchback.png" alt="Car 2">
-                                            @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Hatchback" required>
-                                                <img src="assets/img/cars/Hatchback.png" alt="Car 2">
-                                            @endif
-                                        @endif
-                                    @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Hatchback" required>
-                                        <img src="assets/img/cars/Hatchback.png" alt="Car 2">
-                                    @endif
-                                </label>
-                            </div>
+                            @php
+                                $cars = ['Hatchback', 'Suv', 'Sedan', 'Van'];
+                                $carCount = 2;
+                            @endphp
 
-                            <div class="form-check form-check-inline">
-                                <label>
-                                    @if (session()->exists('carsNeed'))
-                                        @if (!empty(session()->get('carsNeed')))
-                                            @if (session()->get('carsNeed') == 'Suv')
-                                                <input class="form-check-input @error('carsNeed') is-invalid @enderror"
-                                                    type="radio" name="carsNeed" id="carsNeed" value="Suv" checked required
-                                                    value="{{ session()->get('carsNeed') }}">
-                                                <img src="assets/img/cars/Suv.png" alt="Car 3">
+                            @foreach ($cars as $car)
+                                <div class="form-check form-check-inline">
+                                    <label>
+                                        @if (session()->exists('carsNeed'))
+                                            @if (!empty(session()->get('carsNeed')))
+                                                @if (session()->get('carsNeed') == $car)
+                                                    <input class="form-check-input @error('carsNeed') is-invalid @enderror"
+                                                        type="radio" name="carsNeed" id="carsNeed"
+                                                        value={{ $car }} checked required
+                                                        value="{{ session()->get('carsNeed') }}">
+                                                    <img src="assets/img/cars/{{ $car }}.png"
+                                                        alt="Car {{ $carCount }}">
+                                                @else
+                                                    <input class="form-check-input" type="radio" name="carsNeed"
+                                                        id="carsNeed" value={{ $car }} required>
+                                                    <img src="assets/img/cars/{{ $car }}.png"
+                                                        alt="Car {{ $carCount }}">
+                                                @endif
                                             @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Suv" required>
-                                                <img src="assets/img/cars/Suv.png" alt="Car 3">
+                                                @if (old('carsNeed') == $car)
+                                                    <input class="form-check-input" type="radio" name="carsNeed"
+                                                        id="carsNeed" value={{ $car }} checked required>
+                                                    <img src="assets/img/cars/{{ $car }}.png"
+                                                        alt="Car {{ $carCount }}">
+                                                @else
+                                                    <input class="form-check-input" type="radio" name="carsNeed"
+                                                        id="carsNeed" value={{ $car }} required>
+                                                    <img src="assets/img/cars/{{ $car }}.png"
+                                                        alt="Car {{ $carCount }}">
+                                                @endif
                                             @endif
                                         @else
-                                            @if (old('carsNeed') == 'Suv')
+                                            @if (old('carsNeed') == $car)
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Suv" checked required>
-                                                <img src="assets/img/cars/Suv.png" alt="Car 3">
+                                                    value={{ $car }} checked required>
+                                                <img src="assets/img/cars/{{ $car }}.png"
+                                                    alt="Car {{ $carCount }}">
                                             @else
                                                 <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Suv" required>
-                                                <img src="assets/img/cars/Suv.png" alt="Car 3">
+                                                    value={{ $car }} required>
+                                                <img src="assets/img/cars/{{ $car }}.png"
+                                                    alt="Car {{ $carCount }}">
                                             @endif
                                         @endif
-                                    @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Suv" required>
-                                        <img src="assets/img/cars/Suv.png" alt="Car 3">
-                                    @endif
-                                </label>
-                            </div>
 
-                            <div class="form-check form-check-inline">
-                                <label>
-                                    @if (session()->exists('carsNeed'))
-                                        @if (!empty(session()->get('carsNeed')))
-                                            @if (session()->get('carsNeed') == 'Sedan')
-                                                <input class="form-check-input @error('carsNeed') is-invalid @enderror"
-                                                    type="radio" name="carsNeed" id="carsNeed" value="Sedan" checked
-                                                    required value="{{ session()->get('carsNeed') }}">
-                                                <img src="assets/img/cars/Sedan.png" alt="Car 4">
-                                            @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Sedan" required>
-                                                <img src="assets/img/cars/Sedan.png" alt="Car 4">
-                                            @endif
-                                        @else
-                                            @if (old('carsNeed') == 'Sedan')
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Sedan" checked required>
-                                                <img src="assets/img/cars/Sedan.png" alt="Car 4">
-                                            @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Sedan" required>
-                                                <img src="assets/img/cars/Sedan.png" alt="Car 4">
-                                            @endif
-                                        @endif
-                                    @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Sedan" required>
-                                        <img src="assets/img/cars/Sedan.png" alt="Car 4">
-                                    @endif
-                                </label>
-                            </div>
+                                        @php
 
-                            <div class="form-check form-check-inline">
-                                <label>
-                                    @if (session()->exists('carsNeed'))
-                                        @if (!empty(session()->get('carsNeed')))
-                                            @if (session()->get('carsNeed') == 'Van')
-                                                <input class="form-check-input @error('carsNeed') is-invalid @enderror"
-                                                    type="radio" name="carsNeed" id="carsNeed" value="Van" checked required
-                                                    value="{{ session()->get('carsNeed') }}">
-                                                <img src="assets/img/cars/Van.png" alt="Car 5">
-                                            @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Van" required>
-                                                <img src="assets/img/cars/Van.png" alt="Car 5">
-                                            @endif
-                                        @else
-                                            @if (old('carsNeed') == 'Van')
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Van" checked required>
-                                                <img src="assets/img/cars/Van.png" alt="Car 5">
-                                            @else
-                                                <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                                    value="Van" required>
-                                                <img src="assets/img/cars/Van.png" alt="Car 5">
-                                            @endif
-                                        @endif
-                                    @else
-                                        <input class="form-check-input" type="radio" name="carsNeed" id="carsNeed"
-                                            value="Van" required>
-                                        <img src="assets/img/cars/Van.png" alt="Car 5">
-                                    @endif
-                                </label>
-                            </div>
+                                            $carCount++;
+                                        @endphp
+                                    </label>
+                                </div>
+                            @endforeach
+
                         </div>
 
                         <div class="mb-3">
@@ -387,17 +323,23 @@
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
                                         type="date" id="pickUpDate" name="pickUpDate" required
                                         value={{ session()->get('pickUpDate') }}>
-                                    <p>1</p>
                                 @else
-                                    <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
-                                        type="date" id="pickUpDate" name="pickUpDate" required value={{ old('pickUpDate') }}>
-                                    <p>2</p>
+                                    @if (empty(old('pickUpDate')))
+                                        <input
+                                            class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
+                                            type="date" id="pickUpDate" name="pickUpDate" required
+                                            value={{ date('Y-m-d') }}>
+                                    @else
+                                        <input
+                                            class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
+                                            type="date" id="pickUpDate" name="pickUpDate" required
+                                            value={{ old('pickUpDate') }}>
+                                    @endif
                                 @endif
                             @else
                                 @if (empty(old('pickUpDate')))
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
                                         type="date" id="pickUpDate" name="pickUpDate" required value={{ date('Y-m-d') }}>
-                                    <p>3</p>
                                 @else
                                     <input class="form-control form-control-lg @error('pickUpDate') is-invalid @enderror"
                                         type="date" id="pickUpDate" name="pickUpDate" required
@@ -428,7 +370,7 @@
                                     type="time" id="pickUpTime" name="pickUpTime" required value={{ old('pickUpTime') }}>
                             @endif
 
-                            @error('streetName')
+                            @error('pickUpTime')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
