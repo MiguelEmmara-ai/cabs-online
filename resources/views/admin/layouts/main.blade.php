@@ -41,7 +41,7 @@
         @yield('container')
     </div>
 
-    @include('partials.footer')
+    @include('partials.footerAdmin')
 
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
