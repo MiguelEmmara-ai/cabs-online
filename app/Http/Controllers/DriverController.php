@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Driver;
 use App\Models\Passenger;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 class DriverController extends Controller
 {
+    protected $agent;
+
     /**
      * Display a listing of the resource.
      *
@@ -54,30 +57,36 @@ class DriverController extends Controller
     public function showAll(Passenger $passengers)
     {
         $passengers = Passenger::paginate(7)->withQueryString();
+        $this->agent = new Agent();
 
         return view('admin.table', [
             'title' => 'All Passengers Booking',
             "passengers" => $passengers,
+            'agent' => $this->agent,
         ]);
     }
 
     public function showRecent(Passenger $Passengers)
     {
         $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->paginate(7)->withQueryString();
+        $this->agent = new Agent();
 
         return view('admin.table', [
             'title' => 'All Passengers Recent Booking',
             "passengers" => $Passengers,
+            'agent' => $this->agent,
         ]);
     }
 
     public function showAvail(Passenger $Passengers)
     {
         $Passengers = Passenger::where('status', 'Unassigned')->paginate(7)->withQueryString();
+        $this->agent = new Agent();
 
         return view('admin.table', [
             'title' => 'All Passengers Available Booking',
             "passengers" => $Passengers,
+            'agent' => $this->agent,
         ]);
     }
 
@@ -112,9 +121,9 @@ class DriverController extends Controller
                 'assignedBy' => auth()->user()->username,
             ]);
 
-            // Variable To Pass
-            $bookingRef = $request['bookingRefNo'];
-            $driverName = auth()->user()->username;
+        // Variable To Pass
+        $bookingRef = $request['bookingRefNo'];
+        $driverName = auth()->user()->username;
 
         return redirect('/admin')->with('success', "Booking Reference $bookingRef <br> Has Been Assigned For $driverName");
     }
@@ -156,6 +165,7 @@ class DriverController extends Controller
         $exist = Passenger::select('bookingRefNo')
             ->where('bookingRefNo', $request->input('bookingInput'))
             ->first();
+        $this->agent = new Agent();
 
         // If bookingInput is empty, we display status = Unassigned bookings
         if (!($request->input('bookingInput'))) {
@@ -168,6 +178,7 @@ class DriverController extends Controller
             return view('admin.table', [
                 'title' => 'All Passengers Recent Booking',
                 "passengers" => $Passengers,
+                'agent' => $this->agent,
             ]);
         } else {
             // If bookingInput is NOT empty, we display the specific booking info
@@ -179,6 +190,7 @@ class DriverController extends Controller
                 return view('admin.table', [
                     'title' => 'All Passengers Recent Booking',
                     "passengers" => $Passengers,
+                    'agent' => $this->agent,
                 ]);
             } else {
                 // If bookingInput is NOT empty, And not exist, we display error message
