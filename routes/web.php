@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
     return view('home', [
         'title' => 'Cabs Online | Book A Taxi Ride With Us Today!']);
@@ -62,11 +58,11 @@ Route::match(['get', 'post'], '/admin/assign-button', [DriverController::class, 
 Route::match(['get', 'post'], '/admin/search-button', [DriverController::class, 'searchBtn'])
     ->middleware('auth');
 
-Route::get('/admin/all', [DriverController::class, 'showAll'])
-    ->middleware('auth');
+// Route::get('/admin/all', [DriverController::class, 'showAll'])
+//     ->middleware('auth');
 
-Route::get('/admin/recent', [DriverController::class, 'showRecent'])
-    ->middleware('auth');
+// Route::get('/admin/recent', [DriverController::class, 'showRecent'])
+//     ->middleware('auth');
 
-Route::get('/admin/avail', [DriverController::class, 'showAvail'])
-    ->middleware('auth');
+// Route::get('/admin/avail', [DriverController::class, 'showAvail'])
+//     ->middleware('auth');
