@@ -1,0 +1,962 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ServerlessDeploymentBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "ServerlessDeploymentBucket"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      },
+                      "/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "WebLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/assignment02-dev-web"
+      }
+    },
+    "ArtisanLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/assignment02-dev-artisan"
+      }
+    },
+    "IamRoleLambdaExecution": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "assignment02",
+                  "dev",
+                  "lambda"
+                ]
+              ]
+            },
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/assignment02-dev*:*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/assignment02-dev*:*:*"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "Path": "/",
+        "RoleName": {
+          "Fn::Join": [
+            "-",
+            [
+              "assignment02",
+              "dev",
+              {
+                "Ref": "AWS::Region"
+              },
+              "lambdaRole"
+            ]
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "WebLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/assignment02/dev/1668774392536-2022-11-18T12:26:32.536Z/assignment02.zip"
+        },
+        "Handler": "public/index.php",
+        "Runtime": "provided.al2",
+        "FunctionName": "assignment02-dev-web",
+        "MemorySize": 1024,
+        "Timeout": 28,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            "sg-0c934714eba629820"
+          ],
+          "SubnetIds": [
+            "subnet-0ec7e262602efa1ea",
+            "subnet-0c42ac1ac8e561ccb",
+            "subnet-0e164c7fbca026439",
+            "subnet-040f3636229191c15",
+            "subnet-0de4ad3b6baa65ae0",
+            "subnet-0d97c6b84bfe864de"
+          ]
+        },
+        "Layers": [
+          "arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:35"
+        ]
+      },
+      "DependsOn": [
+        "WebLogGroup"
+      ]
+    },
+    "ArtisanLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/assignment02/dev/1668774392536-2022-11-18T12:26:32.536Z/assignment02.zip"
+        },
+        "Handler": "artisan",
+        "Runtime": "provided.al2",
+        "FunctionName": "assignment02-dev-artisan",
+        "MemorySize": 1024,
+        "Timeout": 120,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Layers": [
+          "arn:aws:lambda:us-east-1:209497400698:layer:php-81:35",
+          "arn:aws:lambda:us-east-1:209497400698:layer:console:74"
+        ]
+      },
+      "DependsOn": [
+        "ArtisanLogGroup"
+      ]
+    },
+    "WebLambdaVersionCuNXEu7NmaUBJ9JMpbcIUze4FAfDz2Na31JaFbxjWJ8": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "WebLambdaFunction"
+        },
+        "CodeSha256": "dBITB5JrjdnysZJGMgqtI22i7KBWhx6N1OkjJNjjz+I="
+      }
+    },
+    "ArtisanLambdaVersionNAOhZ4nnWsFAB5ehyX2SSeOgFLcaVDikLf15au7Ic": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ArtisanLambdaFunction"
+        },
+        "CodeSha256": "dBITB5JrjdnysZJGMgqtI22i7KBWhx6N1OkjJNjjz+I="
+      }
+    },
+    "HttpApi": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "Name": "dev-assignment02",
+        "ProtocolType": "HTTP"
+      }
+    },
+    "HttpApiStage": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "StageName": "$default",
+        "AutoDeploy": true,
+        "DefaultRouteSettings": {
+          "DetailedMetricsEnabled": false
+        }
+      }
+    },
+    "WebLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "WebLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationWeb": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "WebLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRouteDefault": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "$default",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationWeb"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationWeb"
+    },
+    "websiteAssets2A73BB69": {
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "websiteAssetsPolicyFDAAA9C0": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "websiteAssets2A73BB69"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "websiteCDNOrigin2S3OriginED10E993",
+                    "S3CanonicalUserId"
+                  ]
+                }
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "websiteAssets2A73BB69",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "websiteCDNOrigin3S3OriginCE7BBD15",
+                    "S3CanonicalUserId"
+                  ]
+                }
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "websiteAssets2A73BB69",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "websiteCDNOrigin4S3Origin12CC29FE",
+                    "S3CanonicalUserId"
+                  ]
+                }
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "websiteAssets2A73BB69",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "websiteCDNOrigin5S3Origin34B95032",
+                    "S3CanonicalUserId"
+                  ]
+                }
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "websiteAssets2A73BB69",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "websiteCDNOrigin6S3Origin1ED867D0",
+                    "S3CanonicalUserId"
+                  ]
+                }
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "websiteAssets2A73BB69",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "websiteBackendOriginPolicy1F13AB4E": {
+      "Type": "AWS::CloudFront::OriginRequestPolicy",
+      "Properties": {
+        "OriginRequestPolicyConfig": {
+          "Comment": "Origin request policy for the website website.",
+          "CookiesConfig": {
+            "CookieBehavior": "all"
+          },
+          "HeadersConfig": {
+            "HeaderBehavior": "whitelist",
+            "Headers": [
+              "Accept",
+              "Accept-Language",
+              "Content-Type",
+              "Origin",
+              "Referer",
+              "User-Agent",
+              "X-Forwarded-Host",
+              "X-Requested-With",
+              "X-Csrf-Token",
+              "X-Inertia"
+            ]
+          },
+          "Name": "assignment02-dev-website",
+          "QueryStringsConfig": {
+            "QueryStringBehavior": "all"
+          }
+        }
+      }
+    },
+    "websiteBackendCachePolicyE2870E5E": {
+      "Type": "AWS::CloudFront::CachePolicy",
+      "Properties": {
+        "CachePolicyConfig": {
+          "Comment": "Cache policy for the website website.",
+          "DefaultTTL": 0,
+          "MaxTTL": 31536000,
+          "MinTTL": 0,
+          "Name": "assignment02-dev-website",
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "CookiesConfig": {
+              "CookieBehavior": "all"
+            },
+            "EnableAcceptEncodingBrotli": false,
+            "EnableAcceptEncodingGzip": false,
+            "HeadersConfig": {
+              "HeaderBehavior": "whitelist",
+              "Headers": [
+                "Authorization"
+              ]
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "all"
+            }
+          }
+        }
+      }
+    },
+    "websiteRequestFunction9E9EBB7A": {
+      "Type": "AWS::CloudFront::Function",
+      "Properties": {
+        "Name": "assignment02-dev-us-east-1-website-request",
+        "AutoPublish": true,
+        "FunctionCode": "function handler(event) {\n    var request = event.request;\n    request.headers[\"x-forwarded-host\"] = request.headers[\"host\"];\n    return request;\n}",
+        "FunctionConfig": {
+          "Comment": "assignment02-dev-us-east-1-website-request",
+          "Runtime": "cloudfront-js-1.0"
+        }
+      }
+    },
+    "websiteCDNOrigin2S3OriginED10E993": {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for websiteCDNOrigin2BA1CC1CD"
+        }
+      }
+    },
+    "websiteCDNOrigin3S3OriginCE7BBD15": {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for websiteCDNOrigin36B7E5D97"
+        }
+      }
+    },
+    "websiteCDNOrigin4S3Origin12CC29FE": {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for websiteCDNOrigin4F20241D3"
+        }
+      }
+    },
+    "websiteCDNOrigin5S3Origin34B95032": {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for websiteCDNOrigin5A04B149B"
+        }
+      }
+    },
+    "websiteCDNOrigin6S3Origin1ED867D0": {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for websiteCDNOrigin6D027E11C"
+        }
+      }
+    },
+    "websiteCDN060D946D": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [
+            "cabsonlinelaravel.miguelemmara.me"
+          ],
+          "CacheBehaviors": [
+            {
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "PathPattern": "/assets/*",
+              "TargetOriginId": "websiteCDNOrigin2BA1CC1CD",
+              "ViewerProtocolPolicy": "redirect-to-https"
+            },
+            {
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "PathPattern": "/js/*",
+              "TargetOriginId": "websiteCDNOrigin36B7E5D97",
+              "ViewerProtocolPolicy": "redirect-to-https"
+            },
+            {
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "PathPattern": "/css/*",
+              "TargetOriginId": "websiteCDNOrigin4F20241D3",
+              "ViewerProtocolPolicy": "redirect-to-https"
+            },
+            {
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "PathPattern": "/favicon.ico",
+              "TargetOriginId": "websiteCDNOrigin5A04B149B",
+              "ViewerProtocolPolicy": "redirect-to-https"
+            },
+            {
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "PathPattern": "/robots.txt",
+              "TargetOriginId": "websiteCDNOrigin6D027E11C",
+              "ViewerProtocolPolicy": "redirect-to-https"
+            }
+          ],
+          "Comment": "assignment02-dev website website CDN",
+          "CustomErrorResponses": [
+            {
+              "ErrorCachingMinTTL": 0,
+              "ErrorCode": 500
+            },
+            {
+              "ErrorCachingMinTTL": 0,
+              "ErrorCode": 504
+            }
+          ],
+          "DefaultCacheBehavior": {
+            "AllowedMethods": [
+              "GET",
+              "HEAD",
+              "OPTIONS",
+              "PUT",
+              "PATCH",
+              "POST",
+              "DELETE"
+            ],
+            "CachePolicyId": {
+              "Ref": "websiteBackendCachePolicyE2870E5E"
+            },
+            "Compress": true,
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "websiteRequestFunction9E9EBB7A",
+                    "FunctionARN"
+                  ]
+                }
+              }
+            ],
+            "OriginRequestPolicyId": {
+              "Ref": "websiteBackendOriginPolicy1F13AB4E"
+            },
+            "TargetOriginId": "websiteCDNOrigin173C249FC",
+            "ViewerProtocolPolicy": "redirect-to-https"
+          },
+          "Enabled": true,
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "Origins": [
+            {
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2"
+                ]
+              },
+              "DomainName": {
+                "Fn::Join": [
+                  ".",
+                  [
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "execute-api.us-east-1.amazonaws.com"
+                  ]
+                ]
+              },
+              "Id": "websiteCDNOrigin173C249FC"
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "websiteAssets2A73BB69",
+                  "RegionalDomainName"
+                ]
+              },
+              "Id": "websiteCDNOrigin2BA1CC1CD",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "websiteCDNOrigin2S3OriginED10E993"
+                      }
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "websiteAssets2A73BB69",
+                  "RegionalDomainName"
+                ]
+              },
+              "Id": "websiteCDNOrigin36B7E5D97",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "websiteCDNOrigin3S3OriginCE7BBD15"
+                      }
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "websiteAssets2A73BB69",
+                  "RegionalDomainName"
+                ]
+              },
+              "Id": "websiteCDNOrigin4F20241D3",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "websiteCDNOrigin4S3Origin12CC29FE"
+                      }
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "websiteAssets2A73BB69",
+                  "RegionalDomainName"
+                ]
+              },
+              "Id": "websiteCDNOrigin5A04B149B",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "websiteCDNOrigin5S3Origin34B95032"
+                      }
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "websiteAssets2A73BB69",
+                  "RegionalDomainName"
+                ]
+              },
+              "Id": "websiteCDNOrigin6D027E11C",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "websiteCDNOrigin6S3Origin1ED867D0"
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "ViewerCertificate": {
+            "AcmCertificateArn": "arn:aws:acm:us-east-1:604149559876:certificate/1bd78f89-611f-4113-8140-8720fd0be89d",
+            "MinimumProtocolVersion": "TLSv1.2_2021",
+            "SslSupportMethod": "sni-only"
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      },
+      "Export": {
+        "Name": "sls-assignment02-dev-ServerlessDeploymentBucketName"
+      }
+    },
+    "WebLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "WebLambdaVersionCuNXEu7NmaUBJ9JMpbcIUze4FAfDz2Na31JaFbxjWJ8"
+      },
+      "Export": {
+        "Name": "sls-assignment02-dev-WebLambdaFunctionQualifiedArn"
+      }
+    },
+    "ArtisanLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "ArtisanLambdaVersionNAOhZ4nnWsFAB5ehyX2SSeOgFLcaVDikLf15au7Ic"
+      },
+      "Export": {
+        "Name": "sls-assignment02-dev-ArtisanLambdaFunctionQualifiedArn"
+      }
+    },
+    "HttpApiId": {
+      "Description": "Id of the HTTP API",
+      "Value": {
+        "Ref": "HttpApi"
+      },
+      "Export": {
+        "Name": "sls-assignment02-dev-HttpApiId"
+      }
+    },
+    "HttpApiUrl": {
+      "Description": "URL of the HTTP API",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "HttpApi"
+            },
+            ".execute-api.",
+            {
+              "Ref": "AWS::Region"
+            },
+            ".",
+            {
+              "Ref": "AWS::URLSuffix"
+            }
+          ]
+        ]
+      },
+      "Export": {
+        "Name": "sls-assignment02-dev-HttpApiUrl"
+      }
+    },
+    "websiteAssetsBucketNameD9518541": {
+      "Description": "Name of the bucket that stores the website assets.",
+      "Value": {
+        "Ref": "websiteAssets2A73BB69"
+      }
+    },
+    "websiteDomainFCB9350F": {
+      "Description": "Website domain name.",
+      "Value": "cabsonlinelaravel.miguelemmara.me"
+    },
+    "websiteCloudFrontCNameBE0CEC1D": {
+      "Description": "CloudFront CNAME.",
+      "Value": {
+        "Fn::GetAtt": [
+          "websiteCDN060D946D",
+          "DomainName"
+        ]
+      }
+    },
+    "websiteDistributionId8ED2D37D": {
+      "Description": "ID of the CloudFront distribution.",
+      "Value": {
+        "Ref": "websiteCDN060D946D"
+      }
+    }
+  }
+}

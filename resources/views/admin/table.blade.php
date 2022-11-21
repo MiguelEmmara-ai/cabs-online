@@ -81,6 +81,8 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Table Start --}}
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
@@ -275,6 +277,8 @@
                         </div>
                     </div>
                 </div>
+                {{-- Table End --}}
+
             </div>
             <!-- End: TableSorter -->
         </div>

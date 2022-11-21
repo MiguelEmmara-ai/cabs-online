@@ -1,0 +1,79 @@
+service: assignment02
+
+provider:
+    name: aws
+    # The AWS region in which to deploy (us-east-1 is the default)
+    region: us-east-1
+    # The stage of the application, e.g. dev, production, staging… ('dev' is the default)
+    stage: dev
+    runtime: provided.al2
+    lambdaHashingVersion: 20201221
+
+package:
+    # Directories to exclude from deployment
+    patterns:
+        - '!node_modules/**'
+        - '!public/storage'
+        - '!resources/assets/**'
+        - '!storage/**'
+        - '!tests/**'
+
+functions:
+    # This function runs the Laravel website/API
+    web:
+        handler: public/index.php
+        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+        layers:
+            - ${bref:layer.php-81-fpm}
+        events:
+            - httpApi: '*'
+        vpc:
+            securityGroupIds:
+                - sg-0c934714eba629820
+            subnetIds:
+                - subnet-0ec7e262602efa1ea
+                - subnet-0c42ac1ac8e561ccb
+                - subnet-0e164c7fbca026439
+                - subnet-040f3636229191c15
+                - subnet-0de4ad3b6baa65ae0
+                - subnet-0d97c6b84bfe864de
+    # This function lets us run artisan commands in Lambda
+    artisan:
+        handler: artisan
+        timeout: 120 # in seconds
+        layers:
+            - ${bref:layer.php-81} # PHP
+            - ${bref:layer.console} # The "console" layer
+
+plugins:
+  - ./vendor/bref/bref
+  - serverless-lift
+
+constructs:
+  website:
+    type: server-side-website
+    domain: cabsonlinelaravel.miguelemmara.me
+    certificate: arn:aws:acm:us-east-1:604149559876:certificate/1bd78f89-611f-4113-8140-8720fd0be89d
+    assets:
+      '/assets/*': public/assets
+      '/js/*': public/assets/js
+      '/css/*': public/assets/css
+      '/favicon.ico': public/favicon.ico
+      '/robots.txt': public/robots.txt
+      # add here any file or directory that needs to be served from S3
+    # Laravel uses some headers that are not in CloudFront's default whitelist.
+    # To add any, we need to list all accepted headers to pass through.
+    # https://github.com/getlift/lift/blob/master/docs/server-side-website.md#forwarded-headers
+    forwardedHeaders:
+      - Accept
+      - Accept-Language
+      - Content-Type
+      - Origin
+      - Referer
+      - User-Agent
+      - X-Forwarded-Host
+      - X-Requested-With
+      # Laravel Framework Headers
+      - X-Csrf-Token
+      # Other Headers (e.g. Livewire, Laravel Nova), uncomment based on your needs
+      - X-Livewire

@@ -30,14 +30,6 @@
                     <h3 class="text-dark mb-4">Welcome Back, {{ auth()->user()->username }} </h3>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 text-end" style="margin-bottom: 30px;">
-                    <a href="admin/all" class="btn btn-primary mx-1 mb-2 showAll" role="button" name="showAllBtn">
-                        <i class="fa fa-plus"></i>&nbsp;Show All Bookings </a>
-                    <a href="admin/recent" class="btn btn-primary mx-1 mb-2 showRecent" role="button" name="showRecentBtn">
-                        <i class="fa fa-plus"></i>&nbsp;Show Recent Bookings </a>
-                    <a href="admin/avail" class="btn btn-primary mx-1 mb-2 showAvailPassengers" role="button"
-                        name="showAvailPassengersBtn">
-                        <i class="fa fa-plus"></i>&nbsp;Show All Available Bookings </a>
-
                     <form action="/logout" method="POST" class="d-inline">
                         @csrf
 
@@ -101,15 +93,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <div id="tableID">
-                                <b class="text-warning">Bookings info will be listed here.</b>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <livewire:bookings-component />
+
             </div>
             <!-- End: TableSorter -->
         </div>

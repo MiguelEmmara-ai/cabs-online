@@ -40,7 +40,7 @@
         </div>
         <!-- Start: Copyright -->
         <p class="copyright">Muhamad Miguel Emmara © 2022 - Made With <i class="fas fa-heart"></i></p>
-        <p class="copyright">V1.4</p>
+        <p class="copyright">V1.5</p>
         <!-- End: Copyright -->
     </div>
 </footer>

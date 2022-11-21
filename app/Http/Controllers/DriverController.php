@@ -66,26 +66,26 @@ class DriverController extends Controller
         ]);
     }
 
-    public function showRecent(Passenger $Passengers)
+    public function showRecent(Passenger $passengers)
     {
-        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->paginate(7)->withQueryString();
+        $passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->paginate(7)->withQueryString();
         $this->agent = new Agent();
 
         return view('admin.table', [
             'title' => 'All Passengers Recent Booking',
-            "passengers" => $Passengers,
+            "passengers" => $passengers,
             'agent' => $this->agent,
         ]);
     }
 
-    public function showAvail(Passenger $Passengers)
+    public function showAvail(Passenger $passengers)
     {
-        $Passengers = Passenger::where('status', 'Unassigned')->paginate(7)->withQueryString();
+        $passengers = Passenger::where('status', 'Unassigned')->paginate(7)->withQueryString();
         $this->agent = new Agent();
 
         return view('admin.table', [
             'title' => 'All Passengers Available Booking',
-            "passengers" => $Passengers,
+            "passengers" => $passengers,
             'agent' => $this->agent,
         ]);
     }
