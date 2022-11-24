@@ -20,12 +20,12 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 # How To Install
 ```shell
-git clone https://github.com/MiguelEmmara-ai/Assignment02-Comp721-Laravel
-cd Assignment01-Comp721-Laravel
+git clone https://github.com/MiguelEmmara-ai/Assignment02-Comp721-Laravel cabsonline
+cd cabsonline
 composer install
 cp .env.example .env
-nano .env << Configure .env
 php artisan key:generate
+nano .env << Configure .env
 php artisan migrate:fresh
 
 ```
