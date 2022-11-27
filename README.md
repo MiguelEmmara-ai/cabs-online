@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Assignment02-Comp721
+# Cabs Online
 Overview
 The aim of this assignment is to develop a better understanding of building web
 applications using simple Ajax techniques, PHP, and MySQL. It is assumed that have
@@ -54,6 +54,14 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [![CSS][CSS.com]][css-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![Laravel][Laravel.com]][Laravel-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Software Architecture
+
+Laravel framework app deployed on aws ec2
+<br>
+![Screenshot 1](https://github.com/MiguelEmmara-ai/cabs-online/blob/master/public/screenshots/Aws%20Cloud%20Architecture%20-%20Laravel.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
