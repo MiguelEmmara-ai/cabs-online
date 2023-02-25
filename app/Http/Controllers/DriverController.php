@@ -7,6 +7,7 @@ use App\Models\Driver;
 use App\Models\Passenger;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
+use Carbon\Carbon;
 
 class DriverController extends Controller
 {
@@ -68,14 +69,28 @@ class DriverController extends Controller
 
     public function showRecent(Passenger $Passengers)
     {
-        $Passengers = Passenger::where('status', 'Unassigned')->orderBy('created_at', 'desc')->take(7)->paginate(7)->withQueryString();
+        $timezone = $this->getTimezone(); // Get the client's timezone
+
+        $Passengers = Passenger::where('status', 'Unassigned')
+            ->where('created_at', '>=', now()->subDay()->setTimezone($timezone)) // Filter by last 24 hours in client's timezone
+            ->orderBy('created_at', 'desc')
+            ->paginate(7)
+            ->withQueryString();
+
         $this->agent = new Agent();
 
         return view('admin.table', [
-            'title' => 'All Passengers Recent Booking',
+            'title' => 'Available Passengers in Last 24 Hours',
             "passengers" => $Passengers,
             'agent' => $this->agent,
         ]);
+    }
+
+    private function getTimezone()
+    {
+        // Get the client's timezone using JavaScript
+        // or any other method suitable for your application
+        return 'UTC'; // Replace with the actual client's timezone
     }
 
     public function showAvail(Passenger $Passengers)
@@ -167,9 +182,16 @@ class DriverController extends Controller
             ->first();
         $this->agent = new Agent();
 
-        // If bookingInput is empty, we display status = Unassigned bookings
+        // Define the time zone to be used
+        date_default_timezone_set('Pacific/Auckland');
+        $current_time = Carbon::now();
+        $pickup_time = $current_time->copy()->addHours(2);
+
+        // If bookingInput is empty, we display status = Unassigned bookings with pickup time within 2 hours
         if (!($request->input('bookingInput'))) {
             $Passengers = Passenger::where('status', 'Unassigned')
+                ->where('pickupTime', '>=', $current_time)
+                ->where('pickupTime', '<=', $pickup_time)
                 ->orderBy('created_at', 'desc')
                 ->take(7)
                 ->paginate(7)

@@ -15,3 +15,4 @@ yarn-error.log
 /.vscode
 TODO.txt
 cabsonline.code-workspace
+.DS_Store
