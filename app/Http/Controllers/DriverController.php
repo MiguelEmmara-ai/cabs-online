@@ -184,40 +184,46 @@ class DriverController extends Controller
 
         // Define the time zone to be used
         date_default_timezone_set('Pacific/Auckland');
-        $current_time = Carbon::now();
-        $pickup_time = $current_time->copy()->addHours(2);
 
-        // If bookingInput is empty, we display status = Unassigned bookings with pickup time within 2 hours
-        if (!($request->input('bookingInput'))) {
-            $Passengers = Passenger::where('status', 'Unassigned')
-                ->where('pickupTime', '>=', $current_time)
-                ->where('pickupTime', '<=', $pickup_time)
-                ->orderBy('created_at', 'desc')
+        // Set pickup date and time
+        $pickup_date = Carbon::parse($request->input('pickupDate'))->format('Y-m-d');
+        $pickup_time = Carbon::parse($request->input('pickupTime'))->format('H:i:s');
+        $pickup_datetime = Carbon::parse($pickup_date . ' ' . $pickup_time);
+
+        // Set the current time and 2 hours from now
+        $current_time = Carbon::now();
+        $pickup_time_within_2_hours = $current_time->copy()->addHours(2);
+
+        if (!$request->input('bookingInput')) {
+            // If bookingInput is empty, display unassigned bookings with pickup time within 2 hours
+            $passengers = Passenger::where('status', 'Unassigned')
+                ->where('pickupDate', '=', $pickup_date)
+                ->where('pickupTime', '>=', $current_time->format('H:i:s'))
+                ->where('pickupTime', '<=', $pickup_time_within_2_hours->format('H:i:s'))
+                ->orderBy('pickupTime', 'asc')
                 ->take(7)
                 ->paginate(7)
                 ->withQueryString();
 
             return view('admin.table', [
                 'title' => 'All Passengers Recent Booking',
-                "passengers" => $Passengers,
+                'passengers' => $passengers,
+                'agent' => $this->agent,
+            ]);
+        } elseif ($exist) {
+            // If bookingInput is NOT empty, display the specific booking info
+            $passengers = Passenger::where('bookingRefNo', $request->input('bookingInput'))
+                ->paginate(3)
+                ->withQueryString();
+
+            return view('admin.table', [
+                'title' => 'All Passengers Recent Booking',
+                'passengers' => $passengers,
                 'agent' => $this->agent,
             ]);
         } else {
-            // If bookingInput is NOT empty, we display the specific booking info
-            if ($exist) {
-                $Passengers = Passenger::where('bookingRefNo', $request->input('bookingInput'))
-                    ->paginate(3)
-                    ->withQueryString();
-
-                return view('admin.table', [
-                    'title' => 'All Passengers Recent Booking',
-                    "passengers" => $Passengers,
-                    'agent' => $this->agent,
-                ]);
-            } else {
-                // If bookingInput is NOT empty, And not exist, we display error message
-                return redirect('/admin')->with('unassignedError', 'This Booking Number Did Not Exist');
-            }
+            // If bookingInput is NOT empty, and not exist, display error message
+            return redirect('/admin')->with('unassignedError', 'This Booking Number Did Not Exist');
         }
     }
 
